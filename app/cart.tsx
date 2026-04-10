@@ -29,12 +29,37 @@ export default function CartScreen() {
     }
   };
 
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.push("/home");
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <Header showBack />
+      {/* Custom Header - cart'tan geri dönünce home'a git */}
+      <View>
+        <View className="bg-black py-2 px-4">
+          <Text className="text-white text-center text-xs">
+            Sign up and get <Text className="font-bold">20% off</Text> to your first order.{" "}
+            <Text className="font-bold underline">Sign Up Now</Text>
+          </Text>
+        </View>
+        <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-100">
+          <Pressable onPress={handleBack}>
+            <Feather name="arrow-left" size={22} color="#000" />
+          </Pressable>
+          <Text className="text-xl font-black tracking-tight">SHOP.CO</Text>
+          <View style={{ width: 22 }} />
+        </View>
+      </View>
 
       <View className="flex-row items-center px-4 py-2">
-        <Text className="text-gray-400 text-xs">Home</Text>
+        <Pressable onPress={() => router.push("/home")}>
+          <Text className="text-gray-400 text-xs">Home</Text>
+        </Pressable>
         <Feather name="chevron-right" size={12} color="#9ca3af" />
         <Text className="text-gray-800 text-xs font-medium">Cart</Text>
       </View>

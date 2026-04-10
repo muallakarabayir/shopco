@@ -16,9 +16,9 @@ export default function YouMightAlsoLike({ currentId }: Props) {
   if (related.length === 0) return null;
 
   return (
-    <View className="mt-6 border-t border-gray-100 pt-6">
+    <View className="mt-6 border-t border-gray-100 pt-6 mb-10">
       <Text className="text-2xl font-black text-center uppercase mb-4">
-        You Might Also Like
+        You Might Also LIke
       </Text>
       <FlatList
         data={related}

@@ -1,12 +1,13 @@
 import { Feather } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { ActivityIndicator, FlatList, Modal, Pressable, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FilterModal, { FilterState } from "../components/FilterModal";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Pagination from "../components/Pagination";
 import ProductCard from "../components/ProductCard";
+import SearchModal from "../components/SearchModal";
 import { useProducts } from "../hooks/useProducts";
 
 const ITEMS_PER_PAGE = 6;
@@ -49,36 +50,12 @@ export default function ProductListScreen() {
         onApply={(f) => { setFilters(f); setCurrentPage(1); }}
       />
 
-      {/* Search Modal */}
-      <Modal visible={searchVisible} transparent animationType="fade">
-        <TouchableWithoutFeedback onPress={() => setSearchVisible(false)}>
-          <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "flex-start", paddingTop: 60 }}>
-            <TouchableWithoutFeedback>
-              <View className="bg-white mx-4 rounded-2xl p-4">
-                <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-3">
-                  <Feather name="search" size={16} color="#9ca3af" />
-                  <TextInput
-                    autoFocus
-                    className="flex-1 ml-2 text-sm text-gray-700"
-                    placeholder="Search for products..."
-                    placeholderTextColor="#9ca3af"
-                    value={search}
-                    onChangeText={(t) => { setSearch(t); setCurrentPage(1); }}
-                  />
-                  {search.length > 0 && (
-                    <Pressable onPress={() => setSearch("")}>
-                      <Feather name="x" size={16} color="#9ca3af" />
-                    </Pressable>
-                  )}
-                </View>
-                <Pressable onPress={() => setSearchVisible(false)} className="mt-3 items-center">
-                  <Text className="text-gray-500 text-sm">Close</Text>
-                </Pressable>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+      <SearchModal
+        visible={searchVisible}
+        value={search}
+        onClose={() => setSearchVisible(false)}
+        onChangeText={(t) => { setSearch(t); setCurrentPage(1); }}
+      />
 
       {/* Title + Filter Button */}
       <View className="flex-row items-center justify-between px-4 py-3">
@@ -93,7 +70,6 @@ export default function ProductListScreen() {
 
         <Pressable
           onPress={() => setFilterVisible(true)}
-          className="relative"
           style={{ width: 32, height: 32, borderRadius: 62, borderWidth: 1, borderColor: "#e5e7eb", alignItems: "center", justifyContent: "center" }}
         >
           <Feather name="sliders" size={16} color="#000" />
@@ -106,9 +82,9 @@ export default function ProductListScreen() {
       </View>
 
       {/* Active Filter Tags */}
-      {filters && (filters.minPrice > 0 || filters.maxPrice < 500 || filters.dressStyle || search.length > 0) && (
+      {(filters || search.length > 0) && (
         <View className="flex-row flex-wrap px-4 mb-2 gap-2">
-          {(filters.minPrice > 0 || filters.maxPrice < 500) && (
+          {filters && (filters.minPrice > 0 || filters.maxPrice < 500) && (
             <View className="bg-gray-100 rounded-full px-3 py-1 flex-row items-center gap-1">
               <Text className="text-xs text-gray-700">${filters.minPrice} - ${filters.maxPrice}</Text>
               <Pressable onPress={() => setFilters({ ...filters, minPrice: 0, maxPrice: 500 })}>
@@ -116,7 +92,7 @@ export default function ProductListScreen() {
               </Pressable>
             </View>
           )}
-          {filters.dressStyle && (
+          {filters?.dressStyle && (
             <View className="bg-gray-100 rounded-full px-3 py-1 flex-row items-center gap-1">
               <Text className="text-xs text-gray-700">{filters.dressStyle}</Text>
               <Pressable onPress={() => setFilters({ ...filters, dressStyle: null })}>
@@ -165,7 +141,10 @@ export default function ProductListScreen() {
             <View className="items-center justify-center py-16">
               <Feather name="search" size={48} color="#e5e7eb" />
               <Text className="text-gray-400 text-sm mt-4">No products found</Text>
-              <Pressable onPress={() => { setFilters(null); setSearch(""); }} className="mt-4 bg-black px-6 py-2 rounded-full">
+              <Pressable
+                onPress={() => { setFilters(null); setSearch(""); }}
+                className="mt-4 bg-black px-6 py-2 rounded-full"
+              >
                 <Text className="text-white text-sm font-semibold">Clear Filters</Text>
               </Pressable>
             </View>

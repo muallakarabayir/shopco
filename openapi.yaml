@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: DummyJSON API
+  version: 1.0.0
+servers:
+  - url: https://dummyjson.com
+paths:
+  /products:
+    get:
+      operationId: getProducts
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Products list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+  /products/{id}:
+    get:
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Single product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+        category:
+          type: string
+        thumbnail:
+          type: string
+        rating:
+          type: number
+        stock:
+          type: integer

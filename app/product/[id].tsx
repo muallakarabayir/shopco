@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { ActivityIndicator, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Footer from "../../components/Footer";
-import YouMightAlsoLike from "../../components/YouMightAlsoLike";
 import Header from "../../components/Header";
-import { useProduct, useProducts } from "../../hooks/useProducts";
+import YouMightAlsoLike from "../../components/YouMightAlsoLike";
+import { useProduct } from "../../hooks/useProducts";
 import { useCartStore } from "../../store/cartStore";
 
 const REVIEWS = [
@@ -22,7 +22,7 @@ export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { data: product, isLoading, isError } = useProduct(Number(id));
-  const addToCart = useCartStore((s) => s.addToCart);
+  const addToCart = useCartStore((s) => s.addToCart) as (product: any, quantity?: number) => void;
   const [added, setAdded] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const [selectedSize, setSelectedSize] = useState("Large");
@@ -32,8 +32,9 @@ export default function ProductDetailScreen() {
 
   const handleAddToCart = () => {
     if (!product) return;
-    for (let i = 0; i < quantity; i++) addToCart(product);
+    addToCart(product, quantity);
     setAdded(true);
+    setQuantity(1);
     setTimeout(() => setAdded(false), 1500);
   };
 
@@ -65,7 +66,6 @@ export default function ProductDetailScreen() {
       {!isLoading && !isError && product && (
         <>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {/* Breadcrumb */}
             <View className="flex-row items-center px-4 py-2">
               <Text className="text-gray-400 text-xs">Home</Text>
               <Feather name="chevron-right" size={12} color="#9ca3af" />
@@ -74,12 +74,10 @@ export default function ProductDetailScreen() {
               <Text className="text-gray-800 text-xs font-medium capitalize">{product.category}</Text>
             </View>
 
-          
             <View className="mx-4 bg-gray-100 rounded-2xl items-center justify-center h-72">
               <Image source={{ uri: product.image }} className="w-56 h-64" resizeMode="contain" />
             </View>
 
-          
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-3 px-4" contentContainerStyle={{ gap: 10 }}>
               {[0, 1, 2].map((i) => (
                 <Pressable key={i} className={`w-20 h-20 rounded-xl bg-gray-100 items-center justify-center border-2 ${i === 0 ? "border-black" : "border-transparent"}`}>
@@ -88,7 +86,6 @@ export default function ProductDetailScreen() {
               ))}
             </ScrollView>
 
-      
             <View className="px-4 mt-4">
               <Text className="text-xl font-black text-gray-900 uppercase leading-tight">{product.title}</Text>
 
@@ -108,7 +105,6 @@ export default function ProductDetailScreen() {
                 </View>
               </View>
 
-     
               <View className="mt-4 border-t border-gray-100 pt-4">
                 <Text className="text-gray-500 text-sm mb-3">Select Colors</Text>
                 <View className="flex-row gap-3">
@@ -124,17 +120,16 @@ export default function ProductDetailScreen() {
                 </View>
               </View>
 
-        
-              <View className="mt-4 border-t border-gray-100 pt-4">
-                <Text className="text-gray-500 text-sm mb-3">Choose Size</Text>
-                <View className="flex-row flex-wrap gap-2">
+              <View className="mt-4 border-t border-gray-100 pt-4 pb-6">
+                <Text className="text-gray-500 text-sm mb-4">Choose Size</Text>
+                <View className="flex-row" style={{ gap: 16 }}>
                   {SIZES.map((size) => (
                     <Pressable
                       key={size}
                       onPress={() => setSelectedSize(size)}
-                      className={`px-5 py-2 rounded-full border ${selectedSize === size ? "bg-black border-black" : "bg-gray-100 border-gray-100"}`}
+                      style={{ flex: 1, paddingVertical: 10, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: selectedSize === size ? "#000" : "#F0F0F0" }}
                     >
-                      <Text className={`text-sm font-medium ${selectedSize === size ? "text-white" : "text-gray-700"}`}>
+                      <Text style={{ fontSize: 13, fontWeight: "500", color: selectedSize === size ? "#fff" : "#374151" }}>
                         {size}
                       </Text>
                     </Pressable>
@@ -142,8 +137,7 @@ export default function ProductDetailScreen() {
                 </View>
               </View>
 
-       
-              <View className="mt-4 border-t border-gray-100 pt-4 flex-row items-center gap-3">
+              <View className="border-t border-gray-100 pt-4 flex-row items-center gap-3">
                 <View className="flex-row items-center bg-gray-100 rounded-full px-3" style={{ height: 48 }}>
                   <Pressable onPress={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: 32, height: 48, alignItems: "center", justifyContent: "center" }}>
                     <Text className="text-gray-700 font-bold text-lg">−</Text>
@@ -165,18 +159,13 @@ export default function ProductDetailScreen() {
                 </Pressable>
               </View>
 
-   
               <View className="mt-6 border-t border-gray-100 pt-2 flex-row">
                 {[
                   { key: "details", label: "Product Details" },
                   { key: "reviews", label: "Rating & Reviews" },
                   { key: "faqs", label: "FAQs" },
                 ].map((tab) => (
-                  <Pressable
-                    key={tab.key}
-                    onPress={() => setActiveTab(tab.key as any)}
-                    className="flex-1 items-center py-3"
-                  >
+                  <Pressable key={tab.key} onPress={() => setActiveTab(tab.key as any)} className="flex-1 items-center py-3">
                     <Text className={`text-xs font-semibold ${activeTab === tab.key ? "text-black" : "text-gray-400"}`}>
                       {tab.label}
                     </Text>
@@ -184,7 +173,6 @@ export default function ProductDetailScreen() {
                   </Pressable>
                 ))}
               </View>
-
 
               {activeTab === "details" && (
                 <View className="py-4">
@@ -205,13 +193,10 @@ export default function ProductDetailScreen() {
                       <Text className="text-white text-xs font-semibold">Write a Review</Text>
                     </Pressable>
                   </View>
-
                   {visibleReviews.map((review, i) => (
                     <View key={i} className="mb-4 border border-gray-100 rounded-2xl p-4">
                       <View className="flex-row items-center justify-between mb-1">
-                        <Text className="text-yellow-400 text-sm">
-                          {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
-                        </Text>
+                        <Text className="text-yellow-400 text-sm">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</Text>
                         <Feather name="more-horizontal" size={16} color="#9ca3af" />
                       </View>
                       <View className="flex-row items-center gap-1 mb-2">
@@ -222,7 +207,6 @@ export default function ProductDetailScreen() {
                       <Text className="text-gray-400 text-xs mt-2">Posted on {review.date}</Text>
                     </View>
                   ))}
-
                   {!showAllReviews && (
                     <Pressable onPress={() => setShowAllReviews(true)} className="border border-gray-200 rounded-full py-3 items-center mt-2">
                       <Text className="text-gray-700 font-semibold text-sm">Load More Reviews</Text>
@@ -243,7 +227,6 @@ export default function ProductDetailScreen() {
               )}
             </View>
 
-            
             <YouMightAlsoLike currentId={Number(id)} />
             <Footer />
             <View className="h-24" />
