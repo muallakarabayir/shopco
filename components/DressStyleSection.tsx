@@ -25,7 +25,7 @@ export default function DressStyleSection() {
         borderRadius: 16,
         width: CONTAINER_W,
       }}>
-        <Text className="text-2xl font-black text-center uppercase tracking-tight mb-4">
+        <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 24, textAlign: "center", textTransform: "uppercase", marginBottom: 16, color: "#111827" }}>
           Browse By Dress Style
         </Text>
         <View style={{ gap: 12 }}>
@@ -47,7 +47,7 @@ export default function DressStyleSection() {
                 resizeMode="cover"
               />
               <View style={{ position: "absolute", top: 20, left: 20 }}>
-                <Text style={{ fontSize: 18, fontWeight: "700", color: "#111827" }}>
+                <Text style={{ fontFamily: "Satoshi-Variable", fontSize: 18, color: "#111827" }}>
                   {cat.label}
                 </Text>
               </View>

@@ -18,7 +18,7 @@ export default function NewArrivals() {
 
   return (
     <View className="pt-8">
-      <Text className="text-2xl font-black text-center uppercase tracking-tight mb-4">
+      <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 24, textAlign: "center", textTransform: "uppercase", marginBottom: 16, color: "#111827" }}>
         New Arrivals
       </Text>
       <View style={{ paddingHorizontal: 12, gap: 12 }}>

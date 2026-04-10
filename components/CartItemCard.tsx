@@ -11,6 +11,7 @@ interface CartItemCardProps {
 }
 
 const IMAGE_SIZE = SCREEN_WIDTH * 0.2;
+const satoshiBold = { fontFamily: "Satoshi-Variable", fontWeight: "700" as const, fontSize: 16, lineHeight: 16, letterSpacing: 0 };
 
 export default function CartItemCard({ item, onRemove, onIncrease, onDecrease }: CartItemCardProps) {
   return (
@@ -27,16 +28,18 @@ export default function CartItemCard({ item, onRemove, onIncrease, onDecrease }:
       </View>
       <View className="flex-1">
         <View className="flex-row items-start justify-between">
-          <Text className="text-sm font-bold text-gray-900 flex-1 pr-2" numberOfLines={2}>
+          <Text style={{ ...satoshiBold, color: "#111827", flex: 1, paddingRight: 8 }} numberOfLines={2}>
             {item.product.title}
           </Text>
           <Pressable onPress={onRemove} className="p-1">
             <Feather name="trash-2" size={16} color="#ef4444" />
           </Pressable>
         </View>
-        <Text className="text-gray-400 text-xs mt-1 capitalize">{item.product.category}</Text>
+        <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "400", fontSize: 12, color: "#9ca3af", marginTop: 4, textTransform: "capitalize" }}>
+          {item.product.category}
+        </Text>
         <View className="flex-row items-center justify-between mt-2">
-          <Text className="text-base font-black text-gray-900">
+          <Text style={{ ...satoshiBold, color: "#111827" }}>
             ${(item.product.price * item.quantity).toFixed(2)}
           </Text>
           <View
@@ -44,13 +47,13 @@ export default function CartItemCard({ item, onRemove, onIncrease, onDecrease }:
             style={{ height: 36 }}
           >
             <Pressable onPress={onDecrease} style={{ width: 28, height: 36, alignItems: "center", justifyContent: "center" }}>
-              <Text className="text-gray-700 font-bold text-base">−</Text>
+              <Text style={{ ...satoshiBold, color: "#374151" }}>−</Text>
             </Pressable>
             <View style={{ width: 24, alignItems: "center", justifyContent: "center" }}>
-              <Text className="text-gray-900 font-semibold text-sm">{item.quantity}</Text>
+              <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "600", fontSize: 14, color: "#111827" }}>{item.quantity}</Text>
             </View>
             <Pressable onPress={onIncrease} style={{ width: 28, height: 36, alignItems: "center", justifyContent: "center" }}>
-              <Text className="text-gray-700 font-bold text-base">+</Text>
+              <Text style={{ ...satoshiBold, color: "#374151" }}>+</Text>
             </Pressable>
           </View>
         </View>

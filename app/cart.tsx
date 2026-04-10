@@ -38,8 +38,8 @@ export default function CartScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      {/* Custom Header - cart'tan geri dönünce home'a git */}
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
+      {/* Custom Header */}
       <View>
         <View className="bg-black py-2 px-4">
           <Text className="text-white text-center text-xs">

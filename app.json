@@ -16,7 +16,10 @@
       },
       "package": "com.wibesoft.shopco"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
     "experiments": {
       "typedRoutes": true
     }

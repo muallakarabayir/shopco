@@ -62,7 +62,7 @@ export default function Header({ showBack = false, onShopPress, onHomePress, onS
               <Feather name="arrow-left" size={isSmallScreen ? 20 : 22} color="#000" />
             </Pressable>
           ) : (
-            <Pressable onPress={() => setDrawerOpen(true)}>
+            <Pressable onPress={() => setDrawerOpen(true)} style={{ width: 24, height: 24, alignItems: "center", justifyContent: "center" }}>
               <Feather name="menu" size={isSmallScreen ? 20 : 22} color="#000" />
             </Pressable>
           )}
@@ -74,18 +74,18 @@ export default function Header({ showBack = false, onShopPress, onHomePress, onS
         <View className="flex-row items-center gap-4">
           {!showBack && (
             <Pressable onPress={handleSearch}>
-              <Pressable onPress={onSearchPress}><Feather name="search" size={isSmallScreen ? 20 : 22} color="#000" /></Pressable>
+              <Pressable onPress={onSearchPress}><Feather name="search" size={isSmallScreen ? 22 : 24} color="#000" /></Pressable>
             </Pressable>
           )}
           <Pressable onPress={() => router.push("/cart")} className="relative">
-            <Feather name="shopping-bag" size={isSmallScreen ? 20 : 22} color="#000" />
+            <Feather name="shopping-bag" size={isSmallScreen ? 22 : 24} color="#000" />
             {totalItems() > 0 && (
               <View className="absolute -top-2 -right-2 bg-black rounded-full w-4 h-4 items-center justify-center">
                 <Text className="text-white text-[9px] font-bold">{totalItems()}</Text>
               </View>
             )}
           </Pressable>
-          {!showBack && <Feather name="user" size={isSmallScreen ? 20 : 22} color="#000" />}
+          {!showBack && <Feather name="user" size={isSmallScreen ? 22 : 24} color="#000" />}
         </View>
       </View>
     </View>

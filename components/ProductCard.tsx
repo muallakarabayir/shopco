@@ -24,7 +24,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
       </View>
       <View className="p-3">
-        <Text className="text-sm font-semibold text-gray-900" numberOfLines={2}>
+        <Text style={{ fontFamily: "Satoshi-Variable", fontSize: 14, fontWeight: "600", color: "#111827" }} numberOfLines={2}>
           {product.title}
         </Text>
         <View className="flex-row items-center mt-1">
@@ -32,11 +32,17 @@ export default function ProductCard({ product }: ProductCardProps) {
             {"★".repeat(Math.round(product.rating.rate))}
             {"☆".repeat(5 - Math.round(product.rating.rate))}
           </Text>
-          <Text className="text-gray-400 text-xs ml-1">{product.rating.rate}/5</Text>
+          <Text style={{ fontFamily: "Satoshi-Variable", fontSize: 12, color: "#9ca3af", marginLeft: 4 }}>
+            {product.rating.rate}/5
+          </Text>
         </View>
         <View className="flex-row items-center mt-1">
-          <Text className="text-base font-black text-gray-900 mr-2">${discountedPrice}</Text>
-          <Text className="text-xs text-gray-400 line-through">${product.price.toFixed(2)}</Text>
+          <Text style={{ fontFamily: "Satoshi-Variable", fontSize: 16, fontWeight: "900", color: "#111827", marginRight: 8 }}>
+            ${discountedPrice}
+          </Text>
+          <Text style={{ fontFamily: "Satoshi-Variable", fontSize: 12, color: "#9ca3af", textDecorationLine: "line-through" }}>
+            ${product.price.toFixed(2)}
+          </Text>
         </View>
       </View>
     </Pressable>

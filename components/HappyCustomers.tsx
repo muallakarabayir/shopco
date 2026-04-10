@@ -50,21 +50,21 @@ export default function HappyCustomers() {
     <View style={{ paddingTop: 32, paddingBottom: 32 }}>
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 mb-4">
-        <Text className="text-2xl font-black uppercase leading-tight">
+        <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 24, textTransform: "uppercase", color: "#111827", lineHeight: 28 }}>
           Our Happy{"\n"}Customers
         </Text>
         <View className="flex-row gap-3">
           <Pressable
             onPress={goPrev}
             style={{ opacity: activeIndex === 0 ? 0.3 : 1 }}
-            className="w-8 h-8 rounded-full border border-gray-300 items-center justify-center"
+            className="w-8 h-8 rounded-full items-center justify-center"
           >
             <Feather name="arrow-left" size={16} color="#000" />
           </Pressable>
           <Pressable
             onPress={goNext}
             style={{ opacity: activeIndex === REVIEWS.length - 1 ? 0.3 : 1 }}
-            className="w-8 h-8 rounded-full border border-gray-300 items-center justify-center"
+            className="w-8 h-8 rounded-full items-center justify-center"
           >
             <Feather name="arrow-right" size={16} color="#000" />
           </Pressable>
@@ -80,27 +80,25 @@ export default function HappyCustomers() {
         showsHorizontalScrollIndicator={false}
         snapToInterval={CARD_W + ITEM_GAP}
         decelerationRate="fast"
-        contentContainerStyle={{
-          paddingHorizontal: SIDE_PADDING,
-          gap: ITEM_GAP,
-        }}
+        contentContainerStyle={{ paddingHorizontal: SIDE_PADDING, gap: ITEM_GAP }}
         onMomentumScrollEnd={(e) => {
           const index = Math.round(e.nativeEvent.contentOffset.x / (CARD_W + ITEM_GAP));
           setActiveIndex(index);
         }}
         renderItem={({ item }) => (
-          <View
-            style={{ width: CARD_W }}
-            className="border border-gray-200 rounded-2xl p-5"
-          >
+          <View style={{ width: CARD_W }} className="border border-gray-200 rounded-2xl p-5">
             <Text className="text-yellow-400 text-base mb-2">
               {"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}
             </Text>
             <View className="flex-row items-center gap-1 mb-3">
-              <Text className="font-bold text-gray-900">{item.name}</Text>
+              <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "700", color: "#111827" }}>
+                {item.name}
+              </Text>
               <Feather name="check-circle" size={14} color="#22c55e" />
             </View>
-            <Text className="text-gray-500 text-sm leading-relaxed">"{item.text}"</Text>
+            <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "400", fontSize: 14, color: "#6b7280", lineHeight: 20, letterSpacing: 0 }}>
+              "{item.text}"
+            </Text>
           </View>
         )}
       />

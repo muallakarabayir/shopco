@@ -2,15 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 
-const PaymentBadge = ({ label, color = "#1a1a2e" }: { label: string; color?: string }) => (
-  <View style={{
-    borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 8,
-    paddingHorizontal: 10, paddingVertical: 6,
-    backgroundColor: "white", minWidth: 52, alignItems: "center", justifyContent: "center"
-  }}>
-    <Text style={{ fontSize: 11, fontWeight: "700", color, letterSpacing: 0.5 }}>{label}</Text>
-  </View>
-);
+const satoshi = { fontFamily: "Satoshi-Variable", fontWeight: "400" as const, fontSize: 14, lineHeight: 20, letterSpacing: 0 };
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -23,16 +15,16 @@ export default function Footer() {
   ];
 
   return (
-    <View className="bg-white">
+    <View style={{ backgroundColor: "#F0F0F0" }}>
       {/* Newsletter */}
-      <View className="mx-4 rounded-2xl p-6 mb-8" style={{ backgroundColor: "#000000" }}>
-        <Text className="text-white text-2xl font-black uppercase leading-tight">
+      <View style={{ marginHorizontal: 16, borderRadius: 16, backgroundColor: "#000000", padding: 24, marginBottom: 0 }}>
+        <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 28, color: "white", textTransform: "uppercase", lineHeight: 32, letterSpacing: 0 }}>
           Stay Upto Date{"\n"}About Our{"\n"}Latest Offers
         </Text>
-        <View className="flex-row items-center bg-white rounded-full px-4 py-3 mt-4">
+        <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: "white", borderRadius: 999, paddingHorizontal: 16, paddingVertical: 12, marginTop: 16 }}>
           <Feather name="mail" size={16} color="#9ca3af" />
           <TextInput
-            className="flex-1 ml-2 text-sm text-gray-700"
+            style={{ ...satoshi, flex: 1, marginLeft: 8, color: "#374151" }}
             placeholder="Enter your email address"
             placeholderTextColor="#9ca3af"
             value={email}
@@ -40,18 +32,18 @@ export default function Footer() {
             keyboardType="email-address"
           />
         </View>
-        <Pressable className="bg-white rounded-full py-3 items-center mt-3">
-          <Text className="text-gray-900 font-semibold text-sm">Subscribe to Newsletter</Text>
+        <Pressable style={{ backgroundColor: "white", borderRadius: 999, paddingVertical: 12, alignItems: "center", marginTop: 12 }}>
+          <Text style={{ ...satoshi, fontWeight: "600", color: "#111827" }}>Subscribe to Newsletter</Text>
         </Pressable>
       </View>
 
       {/* Brand */}
-      <View className="px-4 mb-6">
-        <Text className="text-2xl font-black text-gray-900">SHOP.CO</Text>
-        <Text className="text-gray-500 text-sm mt-2 leading-relaxed">
+      <View style={{ paddingHorizontal: 16, marginBottom: 24 }}>
+        <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 28, color: "#111827" }}>SHOP.CO</Text>
+        <Text style={{ ...satoshi, color: "#6b7280", marginTop: 8 }}>
           We have clothes that suits your style and which you're proud to wear. From women to men.
         </Text>
-        <View className="flex-row gap-3 mt-4">
+        <View style={{ flexDirection: "row", gap: 12, marginTop: 16 }}>
           {socialIcons.map((icon) => (
             <Pressable
               key={icon.name}
@@ -59,7 +51,7 @@ export default function Footer() {
                 width: 36, height: 36, borderRadius: 18,
                 backgroundColor: icon.bg,
                 borderWidth: icon.border ? 1 : 0,
-                borderColor: "#e5e7eb",
+                borderColor: "#d1d5db",
                 alignItems: "center", justifyContent: "center",
               }}
             >
@@ -70,18 +62,20 @@ export default function Footer() {
       </View>
 
       {/* Links */}
-      <View className="px-4 flex-row flex-wrap mb-6">
+      <View style={{ paddingHorizontal: 16, flexDirection: "row", flexWrap: "wrap", marginBottom: 16 }}>
         {[
           { title: "COMPANY", items: ["About", "Features", "Works", "Career"] },
           { title: "HELP", items: ["Customer Support", "Delivery Details", "Terms & Conditions", "Privacy Policy"] },
-          { name: "FAQ", items: ["Account", "Manage Deliveries", "Orders", "Payment"] },
+          { title: "FAQ", items: ["Account", "Manage Deliveries", "Orders", "Payment"] },
           { title: "RESOURCES", items: ["Free eBook", "Development Tutorial", "How to - Blog", "Youtube Playlist"] },
-        ].map((section: any) => (
-          <View key={section.title || section.name} className="w-1/2 mb-6">
-            <Text className="text-xs font-bold text-gray-400 tracking-widest mb-3">{section.title || section.name}</Text>
-            {section.items.map((item: string) => (
-              <Pressable key={item} className="mb-2">
-                <Text className="text-gray-600 text-sm">{item}</Text>
+        ].map((section) => (
+          <View key={section.title} style={{ width: "50%", marginBottom: 24 }}>
+            <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "700", fontSize: 12, color: "#9ca3af", letterSpacing: 2, marginBottom: 16, textTransform: "uppercase" }}>
+              {section.title}
+            </Text>
+            {section.items.map((item) => (
+              <Pressable key={item} style={{ marginBottom: 12 }}>
+                <Text style={{ ...satoshi, color: "#374151" }}>{item}</Text>
               </Pressable>
             ))}
           </View>
@@ -89,25 +83,26 @@ export default function Footer() {
       </View>
 
       {/* Bottom */}
-      <View className="border-t border-gray-100 px-4 py-5">
-        <Text className="text-gray-400 text-xs text-center mb-4">
+      <View style={{ borderTopWidth: 1, borderTopColor: "#d1d5db", paddingHorizontal: 16, paddingVertical: 20, paddingBottom: 60 }}>
+        <Text style={{ ...satoshi, color: "#9ca3af", textAlign: "center", marginBottom: 16 }}>
           Shop.co © 2000-2023, All Rights Reserved
         </Text>
         <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-          <PaymentBadge label="VISA" color="#1A1F71" />
-          <View style={{
-            borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 8,
-            paddingHorizontal: 8, paddingVertical: 6,
-            backgroundColor: "white", alignItems: "center", justifyContent: "center"
-          }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <View style={{ width: 16, height: 16, borderRadius: 8, backgroundColor: "#EB001B", marginRight: -6 }} />
-              <View style={{ width: 16, height: 16, borderRadius: 8, backgroundColor: "#F79E1B" }} />
+          {[
+            { label: "VISA", color: "#1A1F71" },
+            { label: "MC", color: "#EB001B" },
+            { label: "PayPal", color: "#003087" },
+            { label: "Apple Pay", color: "#000" },
+            { label: "G Pay", color: "#5F6368" },
+          ].map((badge) => (
+            <View key={badge.label} style={{
+              borderWidth: 1, borderColor: "#d1d5db", borderRadius: 8,
+              paddingHorizontal: 10, paddingVertical: 6,
+              backgroundColor: "white", minWidth: 56, alignItems: "center", justifyContent: "center"
+            }}>
+              <Text style={{ fontSize: 11, fontWeight: "700", color: badge.color }}>{badge.label}</Text>
             </View>
-          </View>
-          <PaymentBadge label="PayPal" color="#003087" />
-          <PaymentBadge label="●Pay" color="#000" />
-          <PaymentBadge label="G Pay" color="#5F6368" />
+          ))}
         </View>
       </View>
     </View>

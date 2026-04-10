@@ -17,6 +17,7 @@ const REVIEWS = [
 
 const COLORS = ["#4ade80", "#1f2937", "#3b82f6"];
 const SIZES = ["Small", "Medium", "Large", "X-Large"];
+const satoshi = { fontFamily: "Satoshi-Variable", fontWeight: "400" as const, fontSize: 14, lineHeight: 20, letterSpacing: 0 };
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -44,7 +45,7 @@ export default function ProductDetailScreen() {
   const visibleReviews = showAllReviews ? REVIEWS : REVIEWS.slice(0, 2);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white" edges={["top", "left", "right"]}>
       <Header showBack />
 
       {isLoading && (
@@ -56,9 +57,9 @@ export default function ProductDetailScreen() {
       {isError && (
         <View className="flex-1 items-center justify-center px-8">
           <Feather name="alert-circle" size={48} color="#d1d5db" />
-          <Text className="text-gray-800 font-bold text-lg mt-4 text-center">Product not found</Text>
+          <Text style={{ ...satoshi, fontWeight: "700", color: "#111827", fontSize: 18, marginTop: 16, textAlign: "center" }}>Product not found</Text>
           <Pressable onPress={() => router.back()} className="mt-5 bg-black px-6 py-3 rounded-full">
-            <Text className="text-white font-semibold">Go Back</Text>
+            <Text style={{ ...satoshi, color: "white", fontWeight: "600" }}>Go Back</Text>
           </Pressable>
         </View>
       )}
@@ -67,11 +68,11 @@ export default function ProductDetailScreen() {
         <>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View className="flex-row items-center px-4 py-2">
-              <Text className="text-gray-400 text-xs">Home</Text>
+              <Pressable onPress={() => router.push("/home")}><Text style={{ ...satoshi, color: "#9ca3af" }}>Home</Text></Pressable>
               <Feather name="chevron-right" size={12} color="#9ca3af" />
-              <Text className="text-gray-400 text-xs">Shop</Text>
+              <Pressable onPress={() => router.push("/shop")}><Text style={{ ...satoshi, color: "#9ca3af" }}>Shop</Text></Pressable>
               <Feather name="chevron-right" size={12} color="#9ca3af" />
-              <Text className="text-gray-800 text-xs font-medium capitalize">{product.category}</Text>
+              <Text style={{ ...satoshi, fontWeight: "600", color: "#111827", textTransform: "capitalize" }}>{product.category}</Text>
             </View>
 
             <View className="mx-4 bg-gray-100 rounded-2xl items-center justify-center h-72">
@@ -87,26 +88,29 @@ export default function ProductDetailScreen() {
             </ScrollView>
 
             <View className="px-4 mt-4">
-              <Text className="text-xl font-black text-gray-900 uppercase leading-tight">{product.title}</Text>
+              {/* Ürün adı - IntegralCF */}
+              <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 20, color: "#111827", textTransform: "uppercase", lineHeight: 24 }}>
+                {product.title}
+              </Text>
 
               <View className="flex-row items-center mt-2">
                 <Text className="text-yellow-400 text-base">
                   {"★".repeat(Math.round(product.rating.rate))}
                   {"☆".repeat(5 - Math.round(product.rating.rate))}
                 </Text>
-                <Text className="text-gray-500 text-sm ml-2">{product.rating.rate}/5</Text>
+                <Text style={{ ...satoshi, color: "#6b7280", marginLeft: 8 }}>{product.rating.rate}/5</Text>
               </View>
 
               <View className="flex-row items-center gap-3 mt-3">
-                <Text className="text-2xl font-black text-gray-900">${discountedPrice}</Text>
-                <Text className="text-lg text-gray-400 line-through">${originalPrice.toFixed(2)}</Text>
+                <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "700", fontSize: 24, color: "#111827" }}>${discountedPrice}</Text>
+                <Text style={{ ...satoshi, fontSize: 18, color: "#9ca3af", textDecorationLine: "line-through" }}>${originalPrice.toFixed(2)}</Text>
                 <View className="bg-red-100 px-2 py-0.5 rounded-full">
-                  <Text className="text-red-500 text-xs font-bold">-{discountPct}%</Text>
+                  <Text style={{ ...satoshi, fontSize: 12, fontWeight: "700", color: "#ef4444" }}>-{discountPct}%</Text>
                 </View>
               </View>
 
               <View className="mt-4 border-t border-gray-100 pt-4">
-                <Text className="text-gray-500 text-sm mb-3">Select Colors</Text>
+                <Text style={{ ...satoshi, color: "#6b7280", marginBottom: 12 }}>Select Colors</Text>
                 <View className="flex-row gap-3">
                   {COLORS.map((color, i) => (
                     <Pressable
@@ -121,7 +125,7 @@ export default function ProductDetailScreen() {
               </View>
 
               <View className="mt-4 border-t border-gray-100 pt-4 pb-6">
-                <Text className="text-gray-500 text-sm mb-4">Choose Size</Text>
+                <Text style={{ ...satoshi, color: "#6b7280", marginBottom: 16 }}>Choose Size</Text>
                 <View className="flex-row" style={{ gap: 16 }}>
                   {SIZES.map((size) => (
                     <Pressable
@@ -129,7 +133,7 @@ export default function ProductDetailScreen() {
                       onPress={() => setSelectedSize(size)}
                       style={{ flex: 1, paddingVertical: 10, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: selectedSize === size ? "#000" : "#F0F0F0" }}
                     >
-                      <Text style={{ fontSize: 13, fontWeight: "500", color: selectedSize === size ? "#fff" : "#374151" }}>
+                      <Text style={{ ...satoshi, color: selectedSize === size ? "#fff" : "#374151" }}>
                         {size}
                       </Text>
                     </Pressable>
@@ -140,20 +144,20 @@ export default function ProductDetailScreen() {
               <View className="border-t border-gray-100 pt-4 flex-row items-center gap-3">
                 <View className="flex-row items-center bg-gray-100 rounded-full px-3" style={{ height: 48 }}>
                   <Pressable onPress={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: 32, height: 48, alignItems: "center", justifyContent: "center" }}>
-                    <Text className="text-gray-700 font-bold text-lg">−</Text>
+                    <Text style={{ ...satoshi, fontWeight: "700", fontSize: 18, color: "#374151" }}>−</Text>
                   </Pressable>
                   <View style={{ width: 28, alignItems: "center" }}>
-                    <Text className="text-gray-900 font-semibold">{quantity}</Text>
+                    <Text style={{ ...satoshi, fontWeight: "600", color: "#111827" }}>{quantity}</Text>
                   </View>
                   <Pressable onPress={() => setQuantity(quantity + 1)} style={{ width: 32, height: 48, alignItems: "center", justifyContent: "center" }}>
-                    <Text className="text-gray-700 font-bold text-lg">+</Text>
+                    <Text style={{ ...satoshi, fontWeight: "700", fontSize: 18, color: "#374151" }}>+</Text>
                   </Pressable>
                 </View>
                 <Pressable
                   onPress={handleAddToCart}
                   className={`flex-1 rounded-full py-3 items-center ${added ? "bg-green-600" : "bg-black"}`}
                 >
-                  <Text className="text-white font-bold text-base">
+                  <Text style={{ ...satoshi, fontWeight: "600", color: "white" }}>
                     {added ? "✓ Added!" : "Add to Cart"}
                   </Text>
                 </Pressable>
@@ -166,7 +170,7 @@ export default function ProductDetailScreen() {
                   { key: "faqs", label: "FAQs" },
                 ].map((tab) => (
                   <Pressable key={tab.key} onPress={() => setActiveTab(tab.key as any)} className="flex-1 items-center py-3">
-                    <Text className={`text-xs font-semibold ${activeTab === tab.key ? "text-black" : "text-gray-400"}`}>
+                    <Text style={{ ...satoshi, fontWeight: activeTab === tab.key ? "600" : "400", color: activeTab === tab.key ? "#111827" : "#9ca3af" }}>
                       {tab.label}
                     </Text>
                     {activeTab === tab.key && <View className="h-0.5 bg-black w-full mt-2" />}
@@ -176,10 +180,10 @@ export default function ProductDetailScreen() {
 
               {activeTab === "details" && (
                 <View className="py-4">
-                  <Text className="text-gray-600 text-sm leading-relaxed">{product.description}</Text>
+                  <Text style={{ ...satoshi, color: "#4b5563", lineHeight: 22 }}>{product.description}</Text>
                   <View className="mt-3 flex-row">
                     <View className="bg-gray-100 px-3 py-1 rounded-full">
-                      <Text className="text-gray-600 text-xs capitalize">{product.category}</Text>
+                      <Text style={{ ...satoshi, fontSize: 12, color: "#4b5563", textTransform: "capitalize" }}>{product.category}</Text>
                     </View>
                   </View>
                 </View>
@@ -188,9 +192,11 @@ export default function ProductDetailScreen() {
               {activeTab === "reviews" && (
                 <View className="py-4">
                   <View className="flex-row items-center justify-between mb-4">
-                    <Text className="font-black text-base">All Reviews <Text className="text-gray-400 font-normal">({REVIEWS.length * 150})</Text></Text>
+                    <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "700", fontSize: 16, color: "#111827" }}>
+                      All Reviews <Text style={{ fontWeight: "400", color: "#9ca3af" }}>({REVIEWS.length * 150})</Text>
+                    </Text>
                     <Pressable className="bg-black px-4 py-2 rounded-full">
-                      <Text className="text-white text-xs font-semibold">Write a Review</Text>
+                      <Text style={{ ...satoshi, fontSize: 12, fontWeight: "600", color: "white" }}>Write a Review</Text>
                     </Pressable>
                   </View>
                   {visibleReviews.map((review, i) => (
@@ -200,16 +206,16 @@ export default function ProductDetailScreen() {
                         <Feather name="more-horizontal" size={16} color="#9ca3af" />
                       </View>
                       <View className="flex-row items-center gap-1 mb-2">
-                        <Text className="font-bold text-sm text-gray-900">{review.name}</Text>
+                        <Text style={{ ...satoshi, fontWeight: "700", color: "#111827" }}>{review.name}</Text>
                         <Feather name="check-circle" size={14} color="#22c55e" />
                       </View>
-                      <Text className="text-gray-500 text-sm leading-relaxed">"{review.text}"</Text>
-                      <Text className="text-gray-400 text-xs mt-2">Posted on {review.date}</Text>
+                      <Text style={{ ...satoshi, color: "#6b7280" }}>"{review.text}"</Text>
+                      <Text style={{ ...satoshi, fontSize: 12, color: "#9ca3af", marginTop: 8 }}>Posted on {review.date}</Text>
                     </View>
                   ))}
                   {!showAllReviews && (
                     <Pressable onPress={() => setShowAllReviews(true)} className="border border-gray-200 rounded-full py-3 items-center mt-2">
-                      <Text className="text-gray-700 font-semibold text-sm">Load More Reviews</Text>
+                      <Text style={{ ...satoshi, fontWeight: "600", color: "#374151" }}>Load More Reviews</Text>
                     </Pressable>
                   )}
                 </View>
@@ -219,7 +225,7 @@ export default function ProductDetailScreen() {
                 <View className="py-4">
                   {["What is the return policy?", "How do I care for this product?", "Is this product available in other colors?"].map((faq) => (
                     <View key={faq} className="flex-row items-center justify-between py-4 border-b border-gray-100">
-                      <Text className="text-gray-700 text-sm flex-1 pr-4">{faq}</Text>
+                      <Text style={{ ...satoshi, color: "#374151", flex: 1, paddingRight: 16 }}>{faq}</Text>
                       <Feather name="chevron-right" size={16} color="#9ca3af" />
                     </View>
                   ))}
@@ -229,7 +235,7 @@ export default function ProductDetailScreen() {
 
             <YouMightAlsoLike currentId={Number(id)} />
             <Footer />
-            <View className="h-24" />
+            
           </ScrollView>
         </>
       )}

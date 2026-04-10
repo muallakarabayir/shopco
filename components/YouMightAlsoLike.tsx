@@ -7,6 +7,8 @@ interface Props {
   currentId: number;
 }
 
+const satoshiBold = { fontFamily: "Satoshi-Variable", fontWeight: "700" as const, fontSize: 16, lineHeight: 16, letterSpacing: 0 };
+
 export default function YouMightAlsoLike({ currentId }: Props) {
   const router = useRouter();
   const { data: products } = useProducts();
@@ -17,8 +19,8 @@ export default function YouMightAlsoLike({ currentId }: Props) {
 
   return (
     <View className="mt-6 border-t border-gray-100 pt-6 mb-10">
-      <Text className="text-2xl font-black text-center uppercase mb-4">
-        You Might Also LIke
+      <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 32, lineHeight: 36, letterSpacing: 0, textAlign: "center", textTransform: "uppercase", color: "#111827", marginBottom: 16, width: 284, alignSelf: "center" }}>
+        You Might Also Like
       </Text>
       <FlatList
         data={related}
@@ -31,10 +33,9 @@ export default function YouMightAlsoLike({ currentId }: Props) {
           return (
             <Pressable
               onPress={() => router.push(`/product/${item.id}`)}
-              style={{ width: CARD_WIDTH }}
-              className="bg-gray-50 rounded-2xl overflow-hidden"
+              style={{ width: CARD_WIDTH, borderRadius: 13.42, overflow: "hidden", backgroundColor: "#f9fafb" }}
             >
-              <View style={{ height: 160, width: CARD_WIDTH }} className="bg-gray-100 items-center justify-center">
+              <View style={{ height: 160, width: CARD_WIDTH, backgroundColor: "#f3f4f6", alignItems: "center", justifyContent: "center" }}>
                 <Image
                   source={{ uri: item.image }}
                   style={{ width: CARD_WIDTH - 24, height: 140 }}
@@ -42,7 +43,7 @@ export default function YouMightAlsoLike({ currentId }: Props) {
                 />
               </View>
               <View className="p-3">
-                <Text className="text-sm font-semibold text-gray-900" numberOfLines={2}>
+                <Text style={{ ...satoshiBold, color: "#111827" }} numberOfLines={2}>
                   {item.title}
                 </Text>
                 <View className="flex-row items-center mt-1">
@@ -50,11 +51,15 @@ export default function YouMightAlsoLike({ currentId }: Props) {
                     {"★".repeat(Math.round(item.rating.rate))}
                     {"☆".repeat(5 - Math.round(item.rating.rate))}
                   </Text>
-                  <Text className="text-gray-400 text-xs ml-1">{item.rating.rate}/5</Text>
+                  <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "400", fontSize: 12, color: "#9ca3af", marginLeft: 4 }}>
+                    {item.rating.rate}/5
+                  </Text>
                 </View>
                 <View className="flex-row items-center mt-1">
-                  <Text className="text-base font-black text-gray-900 mr-2">${discountedPrice}</Text>
-                  <Text className="text-xs text-gray-400 line-through">${item.price.toFixed(2)}</Text>
+                  <Text style={{ ...satoshiBold, color: "#111827", marginRight: 8 }}>${discountedPrice}</Text>
+                  <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "400", fontSize: 12, color: "#9ca3af", textDecorationLine: "line-through" }}>
+                    ${item.price.toFixed(2)}
+                  </Text>
                 </View>
               </View>
             </Pressable>
