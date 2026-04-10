@@ -1,8 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { useRef, useState } from "react";
-import { Modal, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Dimensions, Modal, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from "react-native";
 import { GestureDetector, Gesture, GestureHandlerRootView } from "react-native-gesture-handler";
-import { SCREEN_WIDTH } from "../constants/layout";
 
 interface FilterModalProps {
   visible: boolean;
@@ -23,7 +22,8 @@ const SIZES = ["XX-Small", "X-Small", "Small", "Medium", "Large", "X-Large", "XX
 const DRESS_STYLES = ["Casual", "Formal", "Party", "Gym"];
 const CATEGORIES = ["T-shirts", "Shorts", "Shirts", "Hoodie", "Jeans"];
 
-const SLIDER_WIDTH = SCREEN_WIDTH - 80;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SLIDER_WIDTH = SCREEN_WIDTH - 16 * 2 - 16 * 2; // px-4 outer (16) + px-4 inner (16) each side
 const MIN = 0;
 const MAX = 500;
 const HANDLE_SIZE = 24;
@@ -44,9 +44,7 @@ function RangeSlider({ minVal, maxVal, onMinChange, onMaxChange }: {
 
   const minGesture = Gesture.Pan()
     .runOnJS(true)
-    .onBegin(() => {
-      minStartX.current = toPercent(minVal) * SLIDER_WIDTH;
-    })
+    .onBegin(() => { minStartX.current = toPercent(minVal) * SLIDER_WIDTH; })
     .onUpdate((e) => {
       const newX = Math.max(0, Math.min(toPercent(maxVal) * SLIDER_WIDTH - 20, minStartX.current + e.translationX));
       onMinChange(toValue(newX));
@@ -54,22 +52,20 @@ function RangeSlider({ minVal, maxVal, onMinChange, onMaxChange }: {
 
   const maxGesture = Gesture.Pan()
     .runOnJS(true)
-    .onBegin(() => {
-      maxStartX.current = toPercent(maxVal) * SLIDER_WIDTH;
-    })
+    .onBegin(() => { maxStartX.current = toPercent(maxVal) * SLIDER_WIDTH; })
     .onUpdate((e) => {
       const newX = Math.max(toPercent(minVal) * SLIDER_WIDTH + 20, Math.min(SLIDER_WIDTH, maxStartX.current + e.translationX));
       onMaxChange(toValue(newX));
     });
 
   return (
-    <View style={{ marginVertical: 16 }}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 16 }}>
-        <Text style={{ fontSize: 13, color: "#6b7280" }}>
-          Min: <Text style={{ fontWeight: "700", color: "#111827" }}>${minVal}</Text>
+    <View className="mt-4 mb-2">
+      <View className="flex-row justify-between mb-4">
+        <Text className="text-sm text-gray-500">
+          Min: <Text className="font-bold text-gray-900">${minVal}</Text>
         </Text>
-        <Text style={{ fontSize: 13, color: "#6b7280" }}>
-          Max: <Text style={{ fontWeight: "700", color: "#111827" }}>${maxVal}</Text>
+        <Text className="text-sm text-gray-500">
+          Max: <Text className="font-bold text-gray-900">${maxVal}</Text>
         </Text>
       </View>
 
@@ -161,20 +157,31 @@ export default function FilterModal({ visible, onClose, onApply }: FilterModalPr
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "flex-end" }}>
-          <TouchableWithoutFeedback>
-            <GestureHandlerRootView>
-              <View style={{ backgroundColor: "white", borderTopLeftRadius: 24, borderTopRightRadius: 24, maxHeight: "90%", paddingBottom: 32 }}>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
+      {/*
+        THE FIX: GestureHandlerRootView must be flex-1 (fills the modal).
+        Inside, the overlay View is also flex-1 with justify-end.
+        The sheet panel itself has NO flex:1 — it only takes as much height as its content (capped at 90%).
+      */}
+      <GestureHandlerRootView className="flex-1">
+        <TouchableWithoutFeedback onPress={onClose}>
+          <View className="flex-1 justify-end" style={{ backgroundColor: "rgba(0,0,0,0.4)" }}>
+            <TouchableWithoutFeedback>
+              <View className="bg-white w-full rounded-t-[20px] pb-8" style={{ maxHeight: "90%" }}>
 
                 {/* Header */}
-                <View className="flex-row items-center justify-between px-6 py-4 border-b border-gray-100">
-                  <Pressable onPress={handleReset}>
-                    <Text className="text-gray-400 text-sm">Reset</Text>
+                <View className="flex-row items-center justify-between px-4 py-4 border-b border-gray-100">
+                  <Pressable onPress={handleReset} className="w-12">
+                    <Text className="text-sm text-gray-400">Reset</Text>
                   </Pressable>
                   <Text className="text-lg font-black">Filters</Text>
-                  <Pressable onPress={onClose}>
+                  <Pressable onPress={onClose} className="w-12 items-end">
                     <Feather name="x" size={22} color="#000" />
                   </Pressable>
                 </View>
@@ -184,32 +191,43 @@ export default function FilterModal({ visible, onClose, onApply }: FilterModalPr
                   {/* Categories */}
                   <View className="border-b border-gray-100">
                     {CATEGORIES.map((cat) => (
-                      <Pressable key={cat} className="flex-row items-center justify-between px-6 py-4 border-b border-gray-50">
-                        <Text className="text-gray-700 text-sm">{cat}</Text>
+                      <Pressable
+                        key={cat}
+                        className="flex-row items-center justify-between px-4 py-4 border-b border-gray-50"
+                      >
+                        <Text className="text-sm text-gray-700">{cat}</Text>
                         <Feather name="chevron-right" size={16} color="#9ca3af" />
                       </Pressable>
                     ))}
                   </View>
 
                   {/* Price */}
-                  <View className="px-6 py-4 border-b border-gray-100">
-                    <Pressable onPress={() => setOpenPrice(!openPrice)} className="flex-row items-center justify-between">
+                  <View className="px-4 py-4 border-b border-gray-100">
+                    <Pressable
+                      onPress={() => setOpenPrice(!openPrice)}
+                      className={`flex-row items-center justify-between ${openPrice ? "mb-0" : ""}`}
+                    >
                       <Text className="text-base font-black">Price</Text>
                       <Feather name={openPrice ? "chevron-up" : "chevron-down"} size={18} color="#000" />
                     </Pressable>
                     {openPrice && (
-                      <RangeSlider
-                        minVal={minPrice}
-                        maxVal={maxPrice}
-                        onMinChange={setMinPrice}
-                        onMaxChange={setMaxPrice}
-                      />
+                      <View className="px-4">
+                        <RangeSlider
+                          minVal={minPrice}
+                          maxVal={maxPrice}
+                          onMinChange={setMinPrice}
+                          onMaxChange={setMaxPrice}
+                        />
+                      </View>
                     )}
                   </View>
 
                   {/* Colors */}
-                  <View className="px-6 py-4 border-b border-gray-100">
-                    <Pressable onPress={() => setOpenColors(!openColors)} className="flex-row items-center justify-between mb-4">
+                  <View className="px-4 py-4 border-b border-gray-100">
+                    <Pressable
+                      onPress={() => setOpenColors(!openColors)}
+                      className={`flex-row items-center justify-between ${openColors ? "mb-4" : ""}`}
+                    >
                       <Text className="text-base font-black">Colors</Text>
                       <Feather name={openColors ? "chevron-up" : "chevron-down"} size={18} color="#000" />
                     </Pressable>
@@ -220,11 +238,14 @@ export default function FilterModal({ visible, onClose, onApply }: FilterModalPr
                             key={color}
                             onPress={() => toggleColor(color)}
                             style={{
-                              width: 36, height: 36, borderRadius: 18,
+                              width: 36,
+                              height: 36,
+                              borderRadius: 18,
                               backgroundColor: color,
                               borderWidth: selectedColors.includes(color) ? 3 : color === "#ffffff" ? 1 : 0,
                               borderColor: selectedColors.includes(color) ? "#000" : "#e5e7eb",
-                              alignItems: "center", justifyContent: "center",
+                              alignItems: "center",
+                              justifyContent: "center",
                             }}
                           >
                             {selectedColors.includes(color) && (
@@ -237,31 +258,54 @@ export default function FilterModal({ visible, onClose, onApply }: FilterModalPr
                   </View>
 
                   {/* Sizes */}
-                  <View className="px-6 py-4 border-b border-gray-100">
-                    <Pressable onPress={() => setOpenSizes(!openSizes)} className="flex-row items-center justify-between mb-4">
+                  <View className="px-4 py-4 border-b border-gray-100">
+                    <Pressable
+                      onPress={() => setOpenSizes(!openSizes)}
+                      className={`flex-row items-center justify-between ${openSizes ? "mb-4" : ""}`}
+                    >
                       <Text className="text-base font-black">Size</Text>
                       <Feather name={openSizes ? "chevron-up" : "chevron-down"} size={18} color="#000" />
                     </Pressable>
                     {openSizes && (
-                      <View className="flex-row flex-wrap gap-2">
-                        {SIZES.map((size) => (
-                          <Pressable
-                            key={size}
-                            onPress={() => toggleSize(size)}
-                            className={`px-4 py-2 rounded-full border ${selectedSizes.includes(size) ? "bg-black border-black" : "bg-gray-100 border-gray-100"}`}
-                          >
-                            <Text className={`text-xs font-medium ${selectedSizes.includes(size) ? "text-white" : "text-gray-700"}`}>
-                              {size}
-                            </Text>
-                          </Pressable>
-                        ))}
+                      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                        {SIZES.map((size) => {
+                          const selected = selectedSizes.includes(size);
+                          return (
+                            <Pressable
+                              key={size}
+                              onPress={() => toggleSize(size)}
+                              style={{
+                                // 3 per row: (containerWidth - px-4*2 - gap*2) / 3
+                                // container px-4 = 16 each side → inner = SCREEN_WIDTH - 32
+                                // 3 items + 2 gaps of 8 → item = (SCREEN_WIDTH - 32 - 16) / 3
+                                width: (SCREEN_WIDTH - 32 - 16) / 3,
+                                paddingVertical: 10,
+                                borderRadius: 20,
+                                backgroundColor: selected ? "#000" : "#F0F0F0",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Text style={{
+                                fontSize: 12,
+                                fontWeight: "500",
+                                color: selected ? "#fff" : "#374151",
+                              }}>
+                                {size}
+                              </Text>
+                            </Pressable>
+                          );
+                        })}
                       </View>
                     )}
                   </View>
 
                   {/* Dress Style */}
-                  <View className="px-6 py-4">
-                    <Pressable onPress={() => setOpenDressStyle(!openDressStyle)} className="flex-row items-center justify-between mb-4">
+                  <View className="px-4 py-4">
+                    <Pressable
+                      onPress={() => setOpenDressStyle(!openDressStyle)}
+                      className={`flex-row items-center justify-between ${openDressStyle ? "mb-4" : ""}`}
+                    >
                       <Text className="text-base font-black">Dress Style</Text>
                       <Feather name={openDressStyle ? "chevron-up" : "chevron-down"} size={18} color="#000" />
                     </Pressable>
@@ -271,7 +315,9 @@ export default function FilterModal({ visible, onClose, onApply }: FilterModalPr
                         onPress={() => setSelectedStyle(style === selectedStyle ? null : style)}
                         className="flex-row items-center justify-between py-3 border-b border-gray-50"
                       >
-                        <Text className={`text-sm ${selectedStyle === style ? "font-bold text-black" : "text-gray-700"}`}>
+                        <Text className={`text-sm ${
+                          selectedStyle === style ? "font-bold text-black" : "text-gray-700"
+                        }`}>
                           {style}
                         </Text>
                         <Feather name="chevron-right" size={16} color="#9ca3af" />
@@ -282,17 +328,17 @@ export default function FilterModal({ visible, onClose, onApply }: FilterModalPr
                 </ScrollView>
 
                 {/* Apply Button */}
-                <View className="px-6 pt-4">
+                <View className="px-4 pt-4">
                   <Pressable onPress={handleApply} className="bg-black rounded-full py-4 items-center">
                     <Text className="text-white font-bold text-base">Apply Filter</Text>
                   </Pressable>
                 </View>
 
               </View>
-            </GestureHandlerRootView>
-          </TouchableWithoutFeedback>
-        </View>
-      </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </GestureHandlerRootView>
     </Modal>
   );
 }
