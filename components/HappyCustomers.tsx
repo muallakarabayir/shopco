@@ -26,7 +26,9 @@ const REVIEWS = [
   },
 ];
 
-const CARD_W = SCREEN_WIDTH - 64;
+const CARD_W = SCREEN_WIDTH * 0.82;
+const SIDE_PADDING = (SCREEN_WIDTH - CARD_W) / 2;
+const ITEM_GAP = 12;
 
 export default function HappyCustomers() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -45,7 +47,7 @@ export default function HappyCustomers() {
   };
 
   return (
-    <View className="pt-8 pb-8">
+    <View style={{ paddingTop: 32, paddingBottom: 32 }}>
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 mb-4">
         <Text className="text-2xl font-black uppercase leading-tight">
@@ -54,13 +56,15 @@ export default function HappyCustomers() {
         <View className="flex-row gap-3">
           <Pressable
             onPress={goPrev}
-            className={`w-8 h-8 rounded-full border border-gray-300 items-center justify-center ${activeIndex === 0 ? "opacity-30" : ""}`}
+            style={{ opacity: activeIndex === 0 ? 0.3 : 1 }}
+            className="w-8 h-8 rounded-full border border-gray-300 items-center justify-center"
           >
             <Feather name="arrow-left" size={16} color="#000" />
           </Pressable>
           <Pressable
             onPress={goNext}
-            className={`w-8 h-8 rounded-full border border-gray-300 items-center justify-center ${activeIndex === REVIEWS.length - 1 ? "opacity-30" : ""}`}
+            style={{ opacity: activeIndex === REVIEWS.length - 1 ? 0.3 : 1 }}
+            className="w-8 h-8 rounded-full border border-gray-300 items-center justify-center"
           >
             <Feather name="arrow-right" size={16} color="#000" />
           </Pressable>
@@ -74,11 +78,14 @@ export default function HappyCustomers() {
         keyExtractor={(item) => item.name}
         horizontal
         showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_W + 16}
+        snapToInterval={CARD_W + ITEM_GAP}
         decelerationRate="fast"
-        contentContainerStyle={{ paddingHorizontal: 16, gap: 16 }}
+        contentContainerStyle={{
+          paddingHorizontal: SIDE_PADDING,
+          gap: ITEM_GAP,
+        }}
         onMomentumScrollEnd={(e) => {
-          const index = Math.round(e.nativeEvent.contentOffset.x / (CARD_W + 16));
+          const index = Math.round(e.nativeEvent.contentOffset.x / (CARD_W + ITEM_GAP));
           setActiveIndex(index);
         }}
         renderItem={({ item }) => (
