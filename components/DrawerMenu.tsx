@@ -30,7 +30,14 @@ export default function DrawerMenu({ visible, onClose, onHomePress, onShopPress 
     },
     {
       label: "Shop",
-      onPress: () => { onClose(); onShopPress ? onShopPress() : router.push("/"); },
+      onPress: () => { 
+        onClose(); 
+        if (onShopPress) {
+          onShopPress();
+        } else {
+          router.push("/");
+        }
+      },
     },
     {
       label: "Cart",
