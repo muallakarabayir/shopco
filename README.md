@@ -23,3 +23,8 @@ npx openapi-rq -i openapi.yaml -o generated
 ## API Notu
 
 Görevde belirtilen `fakestoreapi.com` API'si geliştirme sürecinde kararsız çalıştığı için `dummyjson.com` API'si kullanılmıştır. Bu durum görevli ile paylaşılmış ve onay alınmıştır. Veri yapısı `mapProduct()` fonksiyonu ile normalize edilerek projedeki `Product` tipine uygun hale getirilmiştir.
+
+## Ortam Değişkenleri
+
+Projeyi çalıştırmak için root dizininde `.env` dosyası oluşturun:
+EXPO_PUBLIC_API_URL=https://dummyjson.com
