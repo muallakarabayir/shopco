@@ -14,10 +14,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Pressable
       onPress={() => router.push(`/product/${product.id}`)}
-      style={{ width: CARD_WIDTH }}
-      className="bg-gray-50 rounded-2xl overflow-hidden"
+      style={{ width: CARD_WIDTH, borderRadius: 13.42, overflow: "hidden", backgroundColor: "#f9fafb" }}
     >
-      <View style={{ height: 176, width: CARD_WIDTH }} className="bg-gray-100 items-center justify-center">
+      <View style={{ height: 174, width: CARD_WIDTH, backgroundColor: "#f3f4f6", alignItems: "center", justifyContent: "center" }}>
         <Image
           source={{ uri: product.image }}
           style={{ width: CARD_WIDTH - 24, height: 150 }}

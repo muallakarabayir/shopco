@@ -18,11 +18,11 @@ export default function DressStyleSection() {
   return (
     <View style={{ alignItems: "center", marginTop: 32, paddingBottom: 8 }}>
       <View style={{
-        backgroundColor: "#f5f0eb",
+        backgroundColor: "#f0f0f0",
         paddingHorizontal: 16,
         paddingTop: 28,
         paddingBottom: 28,
-        borderRadius: 24,
+        borderRadius: 16,
         width: CONTAINER_W,
       }}>
         <Text className="text-2xl font-black text-center uppercase tracking-tight mb-4">

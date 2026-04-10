@@ -9,12 +9,13 @@ import DrawerMenu from "./DrawerMenu";
 interface HeaderProps {
   showBack?: boolean;
   onShopPress?: () => void;
+  onSearchPress?: () => void;
   onHomePress?: () => void;
 }
 
 const isSmallScreen = SCREEN_WIDTH < 375;
 
-export default function Header({ showBack = false, onShopPress, onHomePress }: HeaderProps) {
+export default function Header({ showBack = false, onShopPress, onHomePress, onSearchPress }: HeaderProps) {
   const router = useRouter();
   const totalItems = useCartStore((s) => s.totalItems);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -73,7 +74,7 @@ export default function Header({ showBack = false, onShopPress, onHomePress }: H
         <View className="flex-row items-center gap-4">
           {!showBack && (
             <Pressable onPress={handleSearch}>
-              <Feather name="search" size={isSmallScreen ? 20 : 22} color="#000" />
+              <Pressable onPress={onSearchPress}><Feather name="search" size={isSmallScreen ? 20 : 22} color="#000" /></Pressable>
             </Pressable>
           )}
           <Pressable onPress={() => router.push("/cart")} className="relative">

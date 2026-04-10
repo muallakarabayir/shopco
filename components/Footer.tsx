@@ -15,10 +15,17 @@ const PaymentBadge = ({ label, color = "#1a1a2e" }: { label: string; color?: str
 export default function Footer() {
   const [email, setEmail] = useState("");
 
+  const socialIcons = [
+    { name: "twitter", bg: "transparent", iconColor: "#374151", border: true },
+    { name: "facebook", bg: "#000000", iconColor: "#ffffff", border: false },
+    { name: "instagram", bg: "transparent", iconColor: "#374151", border: true },
+    { name: "github", bg: "transparent", iconColor: "#374151", border: true },
+  ];
+
   return (
     <View className="bg-white">
       {/* Newsletter */}
-      <View className="bg-gray-900 mx-4 rounded-2xl p-6 mb-8">
+      <View className="mx-4 rounded-2xl p-6 mb-8" style={{ backgroundColor: "#000000" }}>
         <Text className="text-white text-2xl font-black uppercase leading-tight">
           Stay Upto Date{"\n"}About Our{"\n"}Latest Offers
         </Text>
@@ -45,9 +52,18 @@ export default function Footer() {
           We have clothes that suits your style and which you're proud to wear. From women to men.
         </Text>
         <View className="flex-row gap-3 mt-4">
-          {["twitter", "facebook", "instagram", "github"].map((icon) => (
-            <Pressable key={icon} className="w-9 h-9 rounded-full border border-gray-200 items-center justify-center">
-              <Feather name={icon as any} size={16} color="#374151" />
+          {socialIcons.map((icon) => (
+            <Pressable
+              key={icon.name}
+              style={{
+                width: 36, height: 36, borderRadius: 18,
+                backgroundColor: icon.bg,
+                borderWidth: icon.border ? 1 : 0,
+                borderColor: "#e5e7eb",
+                alignItems: "center", justifyContent: "center",
+              }}
+            >
+              <Feather name={icon.name as any} size={16} color={icon.iconColor} />
             </Pressable>
           ))}
         </View>
@@ -58,12 +74,12 @@ export default function Footer() {
         {[
           { title: "COMPANY", items: ["About", "Features", "Works", "Career"] },
           { title: "HELP", items: ["Customer Support", "Delivery Details", "Terms & Conditions", "Privacy Policy"] },
-          { title: "FAQ", items: ["Account", "Manage Deliveries", "Orders", "Payment"] },
+          { name: "FAQ", items: ["Account", "Manage Deliveries", "Orders", "Payment"] },
           { title: "RESOURCES", items: ["Free eBook", "Development Tutorial", "How to - Blog", "Youtube Playlist"] },
-        ].map((section) => (
-          <View key={section.title} className="w-1/2 mb-6">
-            <Text className="text-xs font-bold text-gray-400 tracking-widest mb-3">{section.title}</Text>
-            {section.items.map((item) => (
+        ].map((section: any) => (
+          <View key={section.title || section.name} className="w-1/2 mb-6">
+            <Text className="text-xs font-bold text-gray-400 tracking-widest mb-3">{section.title || section.name}</Text>
+            {section.items.map((item: string) => (
               <Pressable key={item} className="mb-2">
                 <Text className="text-gray-600 text-sm">{item}</Text>
               </Pressable>
