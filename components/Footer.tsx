@@ -1,27 +1,42 @@
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Image, Pressable, Text, TextInput, View } from "react-native";
 
 const satoshi = { fontFamily: "Satoshi-Variable", fontWeight: "400" as const, fontSize: 14, lineHeight: 20, letterSpacing: 0 };
+
+const SECTIONS = [
+  { title: "COMPANY", items: ["About", "Features", "Works", "Career"] },
+  { title: "HELP", items: ["Customer Support", "Delivery Details", "Terms & Conditions", "Privacy Policy"] },
+  { title: "FAQ", items: ["Account", "Manage Deliveries", "Orders", "Payment"] },
+  { title: "RESOURCES", items: ["Free eBook", "Development Tutorial", "How to - Blog", "Youtube Playlist"] },
+];
+
+const BADGES = [
+  { key: "visa", source: require("../assets/images/visa.png") },
+  { key: "master", source: require("../assets/images/master.png") },
+  { key: "paypal", source: require("../assets/images/paypal.png") },
+  { key: "apple", source: require("../assets/images/apple.png") },
+  { key: "google", source: require("../assets/images/google.png") },
+];
+
+const SOCIAL_ICONS = [
+  { name: "twitter", bg: false, iconColor: "#374151" },
+  { name: "facebook", bg: true, iconColor: "#ffffff" },
+  { name: "instagram", bg: false, iconColor: "#374151" },
+  { name: "github", bg: false, iconColor: "#374151" },
+];
 
 export default function Footer() {
   const [email, setEmail] = useState("");
 
-  const socialIcons = [
-    { name: "twitter", bg: "transparent", iconColor: "#374151", border: true },
-    { name: "facebook", bg: "#000000", iconColor: "#ffffff", border: false },
-    { name: "instagram", bg: "transparent", iconColor: "#374151", border: true },
-    { name: "github", bg: "transparent", iconColor: "#374151", border: true },
-  ];
-
   return (
     <View style={{ backgroundColor: "#F0F0F0" }}>
       {/* Newsletter */}
-      <View style={{ marginHorizontal: 16, borderRadius: 16, backgroundColor: "#000000", padding: 24, marginBottom: 0 }}>
+      <View className="mx-4 rounded-2xl bg-black p-6 mt-6">
         <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 28, color: "white", textTransform: "uppercase", lineHeight: 32, letterSpacing: 0 }}>
           Stay Upto Date{"\n"}About Our{"\n"}Latest Offers
         </Text>
-        <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: "white", borderRadius: 999, paddingHorizontal: 16, paddingVertical: 12, marginTop: 16 }}>
+        <View className="flex-row items-center bg-white rounded-full px-4 py-3 mt-4">
           <Feather name="mail" size={16} color="#9ca3af" />
           <TextInput
             style={{ ...satoshi, flex: 1, marginLeft: 8, color: "#374151" }}
@@ -32,28 +47,22 @@ export default function Footer() {
             keyboardType="email-address"
           />
         </View>
-        <Pressable style={{ backgroundColor: "white", borderRadius: 999, paddingVertical: 12, alignItems: "center", marginTop: 12 }}>
+        <Pressable className="bg-white rounded-full py-3 items-center mt-3">
           <Text style={{ ...satoshi, fontWeight: "600", color: "#111827" }}>Subscribe to Newsletter</Text>
         </Pressable>
       </View>
 
       {/* Brand */}
-      <View style={{ paddingHorizontal: 16, marginBottom: 24 }}>
+      <View className="px-4 mt-6 mb-6">
         <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 28, color: "#111827" }}>SHOP.CO</Text>
         <Text style={{ ...satoshi, color: "#6b7280", marginTop: 8 }}>
           We have clothes that suits your style and which you're proud to wear. From women to men.
         </Text>
-        <View style={{ flexDirection: "row", gap: 12, marginTop: 16 }}>
-          {socialIcons.map((icon) => (
+        <View className="flex-row gap-3 mt-4">
+          {SOCIAL_ICONS.map((icon) => (
             <Pressable
               key={icon.name}
-              style={{
-                width: 36, height: 36, borderRadius: 18,
-                backgroundColor: icon.bg,
-                borderWidth: icon.border ? 1 : 0,
-                borderColor: "#d1d5db",
-                alignItems: "center", justifyContent: "center",
-              }}
+              className={`w-9 h-9 rounded-full items-center justify-center border ${icon.bg ? "bg-black border-black" : "bg-transparent border-gray-300"}`}
             >
               <Feather name={icon.name as any} size={16} color={icon.iconColor} />
             </Pressable>
@@ -62,19 +71,14 @@ export default function Footer() {
       </View>
 
       {/* Links */}
-      <View style={{ paddingHorizontal: 16, flexDirection: "row", flexWrap: "wrap", marginBottom: 16 }}>
-        {[
-          { title: "COMPANY", items: ["About", "Features", "Works", "Career"] },
-          { title: "HELP", items: ["Customer Support", "Delivery Details", "Terms & Conditions", "Privacy Policy"] },
-          { title: "FAQ", items: ["Account", "Manage Deliveries", "Orders", "Payment"] },
-          { title: "RESOURCES", items: ["Free eBook", "Development Tutorial", "How to - Blog", "Youtube Playlist"] },
-        ].map((section) => (
-          <View key={section.title} style={{ width: "50%", marginBottom: 24 }}>
-            <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "700", fontSize: 12, color: "#9ca3af", letterSpacing: 2, marginBottom: 16, textTransform: "uppercase" }}>
+      <View className="px-4 flex-row flex-wrap mb-4">
+        {SECTIONS.map((section) => (
+          <View key={section.title} className="w-1/2 mb-6">
+            <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "700", fontSize: 12, color: "#111827", letterSpacing: 2, marginBottom: 16, textTransform: "uppercase" }}>
               {section.title}
             </Text>
             {section.items.map((item) => (
-              <Pressable key={item} style={{ marginBottom: 12 }}>
+              <Pressable key={item} className="mb-3">
                 <Text style={{ ...satoshi, color: "#374151" }}>{item}</Text>
               </Pressable>
             ))}
@@ -83,24 +87,14 @@ export default function Footer() {
       </View>
 
       {/* Bottom */}
-      <View style={{ borderTopWidth: 1, borderTopColor: "#d1d5db", paddingHorizontal: 16, paddingVertical: 20, paddingBottom: 60 }}>
+      <View className="border-t border-gray-300 px-4 pt-5 pb-14">
         <Text style={{ ...satoshi, color: "#9ca3af", textAlign: "center", marginBottom: 16 }}>
           Shop.co © 2000-2023, All Rights Reserved
         </Text>
-        <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-          {[
-            { label: "VISA", color: "#1A1F71" },
-            { label: "MC", color: "#EB001B" },
-            { label: "PayPal", color: "#003087" },
-            { label: "Apple Pay", color: "#000" },
-            { label: "G Pay", color: "#5F6368" },
-          ].map((badge) => (
-            <View key={badge.label} style={{
-              borderWidth: 1, borderColor: "#d1d5db", borderRadius: 8,
-              paddingHorizontal: 10, paddingVertical: 6,
-              backgroundColor: "white", minWidth: 56, alignItems: "center", justifyContent: "center"
-            }}>
-              <Text style={{ fontSize: 11, fontWeight: "700", color: badge.color }}>{badge.label}</Text>
+        <View className="flex-row justify-center items-center flex-wrap gap-2">
+          {BADGES.map((badge) => (
+            <View key={badge.key} className="border border-gray-300 rounded-lg px-2 py-1 bg-white items-center justify-center">
+              <Image source={badge.source} style={{ width: 28, height: 28 }} resizeMode="contain" />
             </View>
           ))}
         </View>
