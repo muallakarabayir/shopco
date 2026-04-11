@@ -7,6 +7,8 @@ import ToggleButton from "./ToggleButton";
 export default function TopSelling() {
   const { data: products } = useProducts();
   const [showAll, setShowAll] = useState(false);
+  
+  // Ürünleri dilimleme mantığı aynı kaldı
   const items = showAll ? (products ?? []) : (products?.slice(4, 6) ?? []);
 
   if (items.length === 0) return null;
@@ -18,19 +20,29 @@ export default function TopSelling() {
 
   return (
     <View className="pt-8">
-      <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 24, textAlign: "center", textTransform: "uppercase", marginBottom: 16, color: "#111827" }}>
+      <Text 
+        className="text-[24px] text-center uppercase mb-4 text-[#111827]"
+        style={{ fontFamily: "IntegralCF-Bold" }}
+      >
         Top Selling
       </Text>
-      <View style={{ paddingHorizontal: 12, gap: 12 }}>
+
+      <View className="px-3 gap-y-3">
         {rows.map((row, rowIndex) => (
-          <View key={rowIndex} style={{ flexDirection: "row", gap: 12 }}>
+          <View key={rowIndex} className="flex-row gap-x-3">
             {row.map((item) => (
-              <ProductCard key={item.id} product={item} />
+              <View key={item.id} className="flex-1">
+                <ProductCard product={item} />
+              </View>
             ))}
           </View>
         ))}
       </View>
-      <ToggleButton showAll={showAll} onToggle={() => setShowAll(!showAll)} />
+
+      <ToggleButton 
+        showAll={showAll} 
+        onToggle={() => setShowAll(!showAll)} 
+      />
     </View>
   );
 }
