@@ -106,3 +106,4 @@ Figma tasarımında yer alan "Browse By Dress Style" bölümündeki kategori gö
 - Integral CF ve Satoshi fontları Figma'dan alınarak uygulandı
 - NativeWind bazı durumlarda tam çalışmadığı için özel hex renkler ve dinamik değerler inline \`style\` ile yazıldı
 - DrawerMenu, HappyCustomers carousel, YouMightAlsoLike gibi ek UI bileşenleri eklendi
+- Login ve Signup sayfaları eklendi — Figma tasarımına sadık, dikeyde ortalanmış modern auth ekranları; Drawer Menu üzerinden erişilebilir
