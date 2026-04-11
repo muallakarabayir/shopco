@@ -16,9 +16,14 @@ export default function ToggleButton({
   return (
     <Pressable
       onPress={onToggle}
-      className="border border-gray-300 rounded-full py-3 items-center mt-4 mx-4"
+      // self-center: Butonu ekranın yatayda tam merkezine yerleştirir.
+      // justify-center: Yazıyı butonun içinde dikey ve yatayda ortalar.
+      className="w-[358px] h-[46px] border border-gray-300 rounded-[62px] items-center justify-center mt-4 self-center bg-white"
     >
-      <Text className="text-gray-800 font-semibold text-sm">
+      <Text 
+        className="text-black text-[16px] font-medium text-center"
+        style={{ fontFamily: "Satoshi-Variable" }}
+      >
         {showAll ? showLessLabel : showAllLabel}
       </Text>
     </Pressable>
