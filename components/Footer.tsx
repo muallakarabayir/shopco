@@ -31,25 +31,33 @@ export default function Footer() {
 
   return (
     <View style={{ backgroundColor: "#F0F0F0" }}>
-      {/* Newsletter */}
-      <View className="mx-4 rounded-2xl bg-black p-6 mt-6">
-        <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 28, color: "white", textTransform: "uppercase", lineHeight: 32, letterSpacing: 0 }}>
-          Stay Upto Date{"\n"}About Our{"\n"}Latest Offers
-        </Text>
-        <View className="flex-row items-center bg-white rounded-full px-4 py-3 mt-4">
-          <Feather name="mail" size={16} color="#9ca3af" />
-          <TextInput
-            style={{ ...satoshi, flex: 1, marginLeft: 8, color: "#374151" }}
-            placeholder="Enter your email address"
-            placeholderTextColor="#9ca3af"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-          />
+      {/* Newsletter Wrapper - Arka planı ikiye bölen kısım */}
+      <View>
+        {/* Üstteki beyaz boşluk (veya sayfa içeriği rengi) */}
+        <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: "50%", backgroundColor: "white" }} />
+        {/* Alttaki footer rengi */}
+        <View style={{ position: "absolute", top: "50%", left: 0, right: 0, bottom: 0, backgroundColor: "#F0F0F0" }} />
+
+        {/* Newsletter Siyah Kutu */}
+        <View className="mx-4 rounded-2xl bg-black p-6">
+          <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 28, color: "white", textTransform: "uppercase", lineHeight: 32, letterSpacing: 0 }}>
+            Stay Upto Date{"\n"}About Our{"\n"}Latest Offers
+          </Text>
+          <View className="flex-row items-center bg-white rounded-full px-4 py-3 mt-4">
+            <Feather name="mail" size={16} color="#9ca3af" />
+            <TextInput
+              style={{ ...satoshi, flex: 1, marginLeft: 8, color: "#374151" }}
+              placeholder="Enter your email address"
+              placeholderTextColor="#9ca3af"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
+          </View>
+          <Pressable className="bg-white rounded-full py-3 items-center mt-3">
+            <Text style={{ ...satoshi, fontWeight: "600", color: "#111827" }}>Subscribe to Newsletter</Text>
+          </Pressable>
         </View>
-        <Pressable className="bg-white rounded-full py-3 items-center mt-3">
-          <Text style={{ ...satoshi, fontWeight: "600", color: "#111827" }}>Subscribe to Newsletter</Text>
-        </Pressable>
       </View>
 
       {/* Brand */}
