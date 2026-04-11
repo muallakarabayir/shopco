@@ -7,8 +7,6 @@ interface Props {
   currentId: number;
 }
 
-const satoshiBold = { fontFamily: "Satoshi-Variable", fontWeight: "700" as const, fontSize: 16, lineHeight: 16, letterSpacing: 0 };
-
 export default function YouMightAlsoLike({ currentId }: Props) {
   const router = useRouter();
   const { data: products } = useProducts();
@@ -19,7 +17,10 @@ export default function YouMightAlsoLike({ currentId }: Props) {
 
   return (
     <View className="mt-6 border-t border-gray-100 pt-6 mb-10">
-      <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 32, lineHeight: 36, letterSpacing: 0, textAlign: "center", textTransform: "uppercase", color: "#111827", marginBottom: 16, width: 284, alignSelf: "center" }}>
+      <Text 
+        className="text-[32px] text-center uppercase mb-4 text-[#111827] w-[284px] self-center"
+        style={{ fontFamily: "IntegralCF-Bold", lineHeight: 36 }}
+      >
         You Might Also Like
       </Text>
       <FlatList
@@ -29,13 +30,17 @@ export default function YouMightAlsoLike({ currentId }: Props) {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 16, gap: 12 }}
         renderItem={({ item }) => {
-          const discountedPrice = (item.price * 0.6).toFixed(2);
+          // İndirimli fiyat ve rastgele bir indirim oranı simülasyonu
+          const discountPercent = 20; 
+          const discountedPrice = (item.price * (1 - discountPercent / 100)).toFixed(0);
+          
           return (
             <Pressable
               onPress={() => router.push(`/product/${item.id}`)}
-              style={{ width: CARD_WIDTH, borderRadius: 13.42, overflow: "hidden", backgroundColor: "#f9fafb" }}
+              className="bg-[#f9fafb] rounded-[13.42px] overflow-hidden"
+              style={{ width: CARD_WIDTH }}
             >
-              <View style={{ height: 160, width: CARD_WIDTH, backgroundColor: "#f3f4f6", alignItems: "center", justifyContent: "center" }}>
+              <View className="h-40 bg-[#f3f4f6] items-center justify-center">
                 <Image
                   source={{ uri: item.image }}
                   style={{ width: CARD_WIDTH - 24, height: 140 }}
@@ -43,23 +48,46 @@ export default function YouMightAlsoLike({ currentId }: Props) {
                 />
               </View>
               <View className="p-3">
-                <Text style={{ ...satoshiBold, color: "#111827" }} numberOfLines={2}>
+                <Text 
+                  className="text-[#111827] text-base leading-4"
+                  style={{ fontFamily: "Satoshi-Variable", fontWeight: "700" }}
+                  numberOfLines={2}
+                >
                   {item.title}
                 </Text>
+                
+                {/* Rating Bölümü */}
                 <View className="flex-row items-center mt-1">
                   <Text className="text-yellow-400 text-xs">
                     {"★".repeat(Math.round(item.rating.rate))}
                     {"☆".repeat(5 - Math.round(item.rating.rate))}
                   </Text>
-                  <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "400", fontSize: 12, color: "#9ca3af", marginLeft: 4 }}>
+                  <Text className="text-[#9ca3af] text-[12px] ml-1" style={{ fontFamily: "Satoshi-Variable" }}>
                     {item.rating.rate}/5
                   </Text>
                 </View>
-                <View className="flex-row items-center mt-1">
-                  <Text style={{ ...satoshiBold, color: "#111827", marginRight: 8 }}>${discountedPrice}</Text>
-                  <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "400", fontSize: 12, color: "#9ca3af", textDecorationLine: "line-through" }}>
-                    ${item.price.toFixed(2)}
+
+                {/* Fiyat ve İndirim Bölümü */}
+                <View className="flex-row items-center mt-1 flex-wrap">
+                  <Text 
+                    className="text-[#111827] text-xl mr-2"
+                    style={{ fontFamily: "Satoshi-Variable", fontWeight: "700" }}
+                  >
+                    ${discountedPrice}
                   </Text>
+                  <Text 
+                    className="text-[#9ca3af] text-base line-through mr-2"
+                    style={{ fontFamily: "Satoshi-Variable", fontWeight: "700" }}
+                  >
+                    ${item.price.toFixed(0)}
+                  </Text>
+                  
+                  {/* İndirim Oranı Tag'i */}
+                  <View className="bg-red-50 px-2 py-0.5 rounded-full">
+                    <Text className="text-[#FF3333] text-[10px] font-bold">
+                      -{discountPercent}%
+                    </Text>
+                  </View>
                 </View>
               </View>
             </Pressable>
