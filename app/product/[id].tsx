@@ -75,17 +75,38 @@ export default function ProductDetailScreen() {
               <Text style={{ ...satoshi, fontWeight: "600", color: "#111827", textTransform: "capitalize" }}>{product.category}</Text>
             </View>
 
-            <View className="mx-4 bg-gray-100 rounded-2xl items-center justify-center h-72">
-              <Image source={{ uri: product.image }} className="w-56 h-64" resizeMode="contain" />
-            </View>
+           {/* Ürün Görselleri ve Varyasyonlar */}
+<View className="flex-col px-4 gap-y-3">
+  {/* Ana Görsel Kaplayıcı */}
+  <View className="w-full aspect-square bg-[#F0EEED] rounded-[20px] items-center justify-center overflow-hidden">
+    <Image
+      source={{ uri: product?.image }}
+      className="w-[90%] h-[90%]"
+      resizeMode="contain"
+    />
+  </View>
 
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-3 px-4" contentContainerStyle={{ gap: 10 }}>
-              {[0, 1, 2].map((i) => (
-                <Pressable key={i} className={`w-20 h-20 rounded-xl bg-gray-100 items-center justify-center border-2 ${i === 0 ? "border-black" : "border-transparent"}`}>
-                  <Image source={{ uri: product.image }} className="w-14 h-14" resizeMode="contain" />
-                </Pressable>
-              ))}
-            </ScrollView>
+  {/* Varyasyon Listesi - Görseldeki dikey/yatay dizilim ve tam ölçüler */}
+  <View className="flex-row gap-x-3">
+    {/* Not: Buradaki array'i kendi veri yapına (product.images vb.) göre map'leyebilirsin.
+       Şu an tasarım tutarlılığı için 3 adet varyasyon slotu oluşturuldu.
+    */}
+    {[1, 2, 3].map((_, index) => (
+      <View 
+        key={index}
+        className={`w-[111px] h-[106px] rounded-[20px] bg-[#F0EEED] items-center justify-center overflow-hidden border ${
+          index === 0 ? 'border-black' : 'border-transparent'
+        }`}
+      >
+        <Image
+          source={{ uri: product?.image }}
+          className="w-[80%] h-[80%]"
+          resizeMode="contain"
+        />
+      </View>
+    ))}
+  </View>
+</View>
 
             <View className="px-4 mt-4">
               {/* Ürün adı - IntegralCF */}
