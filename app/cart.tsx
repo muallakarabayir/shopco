@@ -79,7 +79,7 @@ export default function CartScreen() {
         </ScrollView>
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Items Container - Figma: border, radius 20, padding 14, gap 16 */}
+          {/* Items Container */}
           <View style={{
             marginHorizontal: 16,
             borderRadius: 20,
@@ -103,73 +103,73 @@ export default function CartScreen() {
             ))}
           </View>
 
-          {/* Order Summary  */}
-<View className="mx-4 mt-6 p-5 rounded-[20px] border border-gray-200 bg-white">
-  <Text 
-    className="text-[20px] font-bold text-gray-900 mb-6"
-    style={{ fontFamily: "Satoshi-Variable" }}
-  >
-    Order Summary
-  </Text>
+          {/* Order Summary - Footer ile arasına mb-10 eklendi */}
+          <View className="mx-4 mt-6 p-5 rounded-[20px] border border-gray-200 bg-white mb-10">
+            <Text 
+              className="text-[20px] font-bold text-gray-900 mb-6"
+              style={{ fontFamily: "Satoshi-Variable" }}
+            >
+              Order Summary
+            </Text>
 
-  {/* Satırlar arası boşluk için gap-5 (20px) */}
-  <View className="gap-y-5">
-    <View className="flex-row justify-between items-center">
-      <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Subtotal</Text>
-      <Text className="text-[16px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${subtotal.toFixed(0)}</Text>
-    </View>
+            <View className="gap-y-5">
+              <View className="flex-row justify-between items-center">
+                <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Subtotal</Text>
+                <Text className="text-[16px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${subtotal.toFixed(0)}</Text>
+              </View>
 
-    <View className="flex-row justify-between items-center">
-      <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Discount (-20%)</Text>
-      <Text className="text-[16px] font-bold text-red-500" style={{ fontFamily: "Satoshi-Variable" }}>-${discount.toFixed(0)}</Text>
-    </View>
+              <View className="flex-row justify-between items-center">
+                <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Discount (-20%)</Text>
+                <Text className="text-[16px] font-bold text-red-500" style={{ fontFamily: "Satoshi-Variable" }}>-${discount.toFixed(0)}</Text>
+              </View>
 
-    <View className="flex-row justify-between items-center">
-      <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Delivery Fee</Text>
-      <Text className="text-[16px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${deliveryFee.toFixed(0)}</Text>
-    </View>
-  </View>
+              <View className="flex-row justify-between items-center">
+                <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Delivery Fee</Text>
+                <Text className="text-[16px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${deliveryFee.toFixed(0)}</Text>
+              </View>
+            </View>
 
-  <View className="h-[1px] bg-gray-100 my-5" />
+            <View className="h-[1px] bg-gray-100 my-5" />
 
-  <View className="flex-row justify-between items-center mb-6">
-    <Text className="text-[18px] text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>Total</Text>
-    <Text className="text-[24px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${total.toFixed(0)}</Text>
-  </View>
+            <View className="flex-row justify-between items-center mb-6">
+              <Text className="text-[18px] text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>Total</Text>
+              <Text className="text-[24px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${total.toFixed(0)}</Text>
+            </View>
 
-  {/* Promo Code & Apply */}
-  <View className="flex-row items-center gap-3 mb-4">
-    <View className="flex-1 flex-row items-center bg-[#F0F0F0] rounded-full px-4 h-12">
-      <Feather name="tag" size={20} color="#9ca3af" />
-      <TextInput
-        className="flex-1 ml-3 text-[14px] text-gray-700"
-        style={{ fontFamily: "Satoshi-Variable" }}
-        placeholder="Add promo code"
-        placeholderTextColor="#9ca3af"
-        value={promoCode}
-        onChangeText={setPromoCode}
-        autoCapitalize="characters"
-        editable={!promoApplied}
-      />
-    </View>
-    <Pressable
-      onPress={handleApplyPromo}
-      className={`h-12 px-8 rounded-full items-center justify-center ${promoApplied ? "bg-green-600" : "bg-black"}`}
-    >
-      <Text className="text-white font-bold" style={{ fontFamily: "Satoshi-Variable" }}>
-        {promoApplied ? "✓" : "Apply"}
-      </Text>
-    </Pressable>
-  </View>
+            {/* Promo Code & Apply */}
+            <View className="flex-row items-center gap-3 mb-4">
+              <View className="flex-1 flex-row items-center bg-[#F0F0F0] rounded-full px-4 h-12">
+                <Feather name="tag" size={20} color="#9ca3af" />
+                <TextInput
+                  className="flex-1 ml-3 text-[14px] text-gray-700"
+                  style={{ fontFamily: "Satoshi-Variable" }}
+                  placeholder="Add promo code"
+                  placeholderTextColor="#9ca3af"
+                  value={promoCode}
+                  onChangeText={setPromoCode}
+                  autoCapitalize="characters"
+                  editable={!promoApplied}
+                />
+              </View>
+              <Pressable
+                onPress={handleApplyPromo}
+                className={`h-12 px-8 rounded-full items-center justify-center ${promoApplied ? "bg-green-600" : "bg-black"}`}
+              >
+                <Text className="text-white font-bold" style={{ fontFamily: "Satoshi-Variable" }}>
+                  {promoApplied ? "✓" : "Apply"}
+                </Text>
+              </Pressable>
+            </View>
 
-  {/* Go to Checkout Button */}
-  <Pressable className="bg-black rounded-full h-14 flex-row items-center justify-center gap-2">
-    <Text className="text-white font-bold text-[16px]" style={{ fontFamily: "Satoshi-Variable" }}>
-      Go to Checkout
-    </Text>
-    <Feather name="arrow-right" size={20} color="white" />
-  </Pressable>
-</View>
+            {/* Go to Checkout Button */}
+            <Pressable className="bg-black rounded-full h-14 flex-row items-center justify-center gap-2">
+              <Text className="text-white font-bold text-[16px]" style={{ fontFamily: "Satoshi-Variable" }}>
+                Go to Checkout
+              </Text>
+              <Feather name="arrow-right" size={20} color="white" />
+            </Pressable>
+          </View>
+          
           <Footer />
         </ScrollView>
       )}

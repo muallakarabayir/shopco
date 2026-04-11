@@ -20,7 +20,7 @@ const satoshiBold = {
 export default function CartItemCard({ item, onRemove, onIncrease, onDecrease }: CartItemCardProps) {
   return (
     <View className="bg-white flex-row gap-3">
-      {/* Görsel Alanı: Tam 99x99 ve 8.66px radius */}
+      {/* Görsel Alanı */}
       <View
         className="w-[99px] h-[99px] rounded-[8.66px] overflow-hidden bg-[#F0EEED] items-center justify-center"
       >
@@ -36,7 +36,7 @@ export default function CartItemCard({ item, onRemove, onIncrease, onDecrease }:
         <View>
           <View className="flex-row items-start justify-between">
             <Text 
-              style={{ ...satoshiBold, color: "#111827", flex: 1, paddingRight: 8 }} 
+              style={{ ...satoshiBold, color: "#111827", flex: 1, paddingRight: 8 }}
               numberOfLines={1}
             >
               {item.product.title}
@@ -46,7 +46,6 @@ export default function CartItemCard({ item, onRemove, onIncrease, onDecrease }:
             </Pressable>
           </View>
           
-          {/* Boyut ve Renk Bilgisi - Statik veya veriden çekilebilir */}
           <Text className="font-[Satoshi-Variable] text-[12px] text-gray-500 mt-1">
             Size: <Text className="text-gray-900">Large</Text>
           </Text>
@@ -57,21 +56,38 @@ export default function CartItemCard({ item, onRemove, onIncrease, onDecrease }:
 
         {/* Fiyat ve Miktar Seçici */}
         <View className="flex-row items-center justify-between mt-auto">
-          <Text className="text-[20px] font-bold text-gray-900">
+          <Text className="text-[20px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>
             ${(item.product.price * item.quantity).toFixed(0)}
           </Text>
           
-          <View className="flex-row items-center bg-[#F0F0F0] rounded-full px-3 py-2 gap-4">
-            <Pressable onPress={onDecrease}>
-              <Feather name="minus" size={16} color="black" />
+          {/* Yeni Layout Ölçüleri Uygulandı */}
+          <View 
+            style={{
+              width: 105,
+              height: 31,
+              borderRadius: 62,
+              backgroundColor: "#F0F0F0",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingHorizontal: 20,
+              // paddingVertical: 14 değeri 31px yükseklik için çok büyük olduğundan 
+              // içeriği dikeyde ortalamak yeterli olacaktır.
+            }}
+          >
+            <Pressable onPress={onDecrease} hitSlop={10}>
+              <Feather name="minus" size={14} color="black" />
             </Pressable>
             
-            <Text className="font-[Satoshi-Variable] font-bold text-[14px]">
+            <Text 
+                className="font-bold text-[14px] text-gray-900"
+                style={{ fontFamily: "Satoshi-Variable" }}
+            >
               {item.quantity}
             </Text>
             
-            <Pressable onPress={onIncrease}>
-              <Feather name="plus" size={16} color="black" />
+            <Pressable onPress={onIncrease} hitSlop={10}>
+              <Feather name="plus" size={14} color="black" />
             </Pressable>
           </View>
         </View>
