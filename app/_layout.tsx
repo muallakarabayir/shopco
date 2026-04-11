@@ -32,6 +32,8 @@ export default function RootLayout() {
           <Stack.Screen name="index" />
           <Stack.Screen name="shop" />
           <Stack.Screen name="cart" />
+          <Stack.Screen name="signup" />
+          <Stack.Screen name="login" />
           <Stack.Screen name="product/[id]" />
         </Stack>
       </SafeAreaProvider>

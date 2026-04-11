@@ -60,15 +60,30 @@ export default function DrawerMenu({ visible, onClose, onHomePress, onShopPress 
               ))}
 
               <View className="absolute bottom-12 left-6 right-6">
-                <View className="flex-row gap-4">
-                  <Pressable className="flex-1 bg-black py-3 rounded-full items-center">
-                    <Text style={{ ...satoshi, fontWeight: "700", color: "white" }}>Sign In</Text>
-                  </Pressable>
-                  <Pressable className="flex-1 border border-black py-3 rounded-full items-center">
-                    <Text style={{ ...satoshi, fontWeight: "700", color: "#111827" }}>Sign Up</Text>
-                  </Pressable>
-                </View>
-              </View>
+  <View className="flex-row gap-4">
+    {/* Sign In Butonu */}
+    <Pressable 
+      onPress={() => {
+        onClose();
+        router.push("/auth/login"); // (auth) grubu olduğu için direkt /login
+      }}
+      className="flex-1 bg-black py-3 rounded-full items-center"
+    >
+      <Text style={{ ...satoshi, fontWeight: "700", color: "white" }}>Sign In</Text>
+    </Pressable>
+
+    {/* Sign Up Butonu */}
+    <Pressable 
+      onPress={() => {
+        onClose();
+        router.push("/auth/signup"); // (auth) grubu olduğu için direkt /signup
+      }}
+      className="flex-1 border border-black py-3 rounded-full items-center"
+    >
+      <Text style={{ ...satoshi, fontWeight: "700", color: "#111827" }}>Sign Up</Text>
+    </Pressable>
+  </View>
+</View>
             </Animated.View>
           </TouchableWithoutFeedback>
         </View>
