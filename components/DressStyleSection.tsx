@@ -30,7 +30,7 @@ export default function DressStyleSection() {
               // Kart Ölçüleri: 310x190, Radius 20
               className="w-[310px] h-[190px] rounded-[20px] overflow-hidden bg-white relative"
             >
-              {/* Kategori Başlığı: Left 24px, Top Figma değerlerine göre */}
+              {/* Kategori Başlıği */}
               <View className="absolute top-6 left-6 z-10">
                 <Text 
                   className="text-[24px] font-bold text-gray-900"

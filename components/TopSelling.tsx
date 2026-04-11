@@ -8,7 +8,7 @@ export default function TopSelling() {
   const { data: products } = useProducts();
   const [showAll, setShowAll] = useState(false);
   
-  // Ürünleri dilimleme mantığı aynı kaldı
+  // Ürünleri dilimleme mantığı (4'ten 6'ya kadar olanları gösterir)
   const items = showAll ? (products ?? []) : (products?.slice(4, 6) ?? []);
 
   if (items.length === 0) return null;

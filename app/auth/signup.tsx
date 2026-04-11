@@ -1,8 +1,10 @@
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View, ScrollView } from "react-native";
+import { Pressable, Text, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -32,41 +34,29 @@ export default function SignupScreen() {
             Join us to start shopping the latest trends.
           </Text>
 
-          <View className="gap-y-4">
-            <View className="bg-[#F0F0F0] rounded-full px-5 h-14 flex-row items-center">
-              <Feather name="user" size={20} color="#9ca3af" />
-              <TextInput
-                className="flex-1 ml-3 text-[16px]"
-                style={{ fontFamily: "Satoshi-Variable" }}
-                placeholder="Full Name"
-                value={name}
-                onChangeText={setName}
-              />
-            </View>
+          <View className="gap-y-1">
+            <Input
+              icon="user"
+              placeholder="Full Name"
+              value={name}
+              onChangeText={setName}
+            />
 
-            <View className="bg-[#F0F0F0] rounded-full px-5 h-14 flex-row items-center">
-              <Feather name="mail" size={20} color="#9ca3af" />
-              <TextInput
-                className="flex-1 ml-3 text-[16px]"
-                style={{ fontFamily: "Satoshi-Variable" }}
-                placeholder="Email Address"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-              />
-            </View>
+            <Input
+              icon="mail"
+              placeholder="Email Address"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
 
-            <View className="bg-[#F0F0F0] rounded-full px-5 h-14 flex-row items-center">
-              <Feather name="lock" size={20} color="#9ca3af" />
-              <TextInput
-                className="flex-1 ml-3 text-[16px]"
-                style={{ fontFamily: "Satoshi-Variable" }}
-                placeholder="Password"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-              />
-            </View>
+            <Input
+              icon="lock"
+              placeholder="Password"
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+            />
           </View>
 
           <View className="mt-6 flex-row items-start px-2">
@@ -78,15 +68,14 @@ export default function SignupScreen() {
             </Text>
           </View>
 
-          <Pressable className="bg-black h-14 rounded-full items-center justify-center mt-10">
-            <Text className="text-white font-bold text-[16px]" style={{ fontFamily: "Satoshi-Variable" }}>
-              Create Account
-            </Text>
-          </Pressable>
+          <Button 
+            title="Create Account" 
+            onPress={() => console.log("Signup logic here")} 
+          />
 
           <View className="flex-row justify-center mt-8">
             <Text className="text-gray-500" style={{ fontFamily: "Satoshi-Variable" }}>Already have an account? </Text>
-            <Pressable onPress={() => router.push("/auth/login" as any)}>
+            <Pressable onPress={() => router.push("/auth/login")}>
               <Text className="text-black font-bold underline">Log In</Text>
             </Pressable>
           </View>

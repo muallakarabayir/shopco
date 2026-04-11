@@ -1,8 +1,10 @@
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -28,51 +30,47 @@ export default function LoginScreen() {
           Welcome back! Please enter your details.
         </Text>
 
-        <View className="gap-y-4">
-          <View className="bg-[#F0F0F0] rounded-full px-5 h-14 flex-row items-center">
-            <Feather name="mail" size={20} color="#9ca3af" />
-            <TextInput
-              className="flex-1 ml-3 text-[16px]"
-              style={{ fontFamily: "Satoshi-Variable" }}
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
+        <View className="gap-y-1">
+          <Input
+            icon="mail"
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
 
-          <View className="bg-[#F0F0F0] rounded-full px-5 h-14 flex-row items-center">
-            <Feather name="lock" size={20} color="#9ca3af" />
-            <TextInput
-              className="flex-1 ml-3 text-[16px]"
-              style={{ fontFamily: "Satoshi-Variable" }}
+          <View className="relative">
+            <Input
+              icon="lock"
               placeholder="Password"
               secureTextEntry={!showPassword}
               value={password}
               onChangeText={setPassword}
             />
-            <Pressable onPress={() => setShowPassword(!showPassword)}>
+            <Pressable 
+              onPress={() => setShowPassword(!showPassword)}
+              className="absolute right-5 top-4"
+            >
               <Feather name={showPassword ? "eye" : "eye-off"} size={20} color="#9ca3af" />
             </Pressable>
           </View>
         </View>
 
-        <Pressable className="mt-4 self-end">
+        <Pressable className="mt-2 self-end">
           <Text className="text-gray-900 font-medium underline" style={{ fontFamily: "Satoshi-Variable" }}>
             Forgot password?
           </Text>
         </Pressable>
 
-        <Pressable className="bg-black h-14 rounded-full items-center justify-center mt-10">
-          <Text className="text-white font-bold text-[16px]" style={{ fontFamily: "Satoshi-Variable" }}>
-            Log In
-          </Text>
-        </Pressable>
+        <Button 
+          title="Log In" 
+          onPress={() => console.log("Login logic here")} 
+        />
 
         <View className="flex-row justify-center mt-8">
           <Text className="text-gray-500" style={{ fontFamily: "Satoshi-Variable" }}>Don't have an account? </Text>
-          <Pressable onPress={() => router.push("/auth/signup" as any)}>
+          <Pressable onPress={() => router.push("/auth/signup")}>
             <Text className="text-black font-bold underline">Sign Up</Text>
           </Pressable>
         </View>
