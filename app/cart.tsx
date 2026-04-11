@@ -103,68 +103,73 @@ export default function CartScreen() {
             ))}
           </View>
 
-          {/* Order Summary */}
-          <View className="mt-4 mx-4 bg-gray-50 rounded-2xl p-4">
-            <Text style={{ ...satoshi, fontWeight: "700", fontSize: 18, color: "#111827", marginBottom: 12 }}>Order Summary</Text>
+          {/* Order Summary  */}
+<View className="mx-4 mt-6 p-5 rounded-[20px] border border-gray-200 bg-white">
+  <Text 
+    className="text-[20px] font-bold text-gray-900 mb-6"
+    style={{ fontFamily: "Satoshi-Variable" }}
+  >
+    Order Summary
+  </Text>
 
-            <View className="flex-row justify-between items-center mb-2">
-              <Text style={{ ...satoshi, color: "#6b7280" }}>Subtotal</Text>
-              <Text style={{ ...satoshi, fontWeight: "600", color: "#111827" }}>${subtotal.toFixed(2)}</Text>
-            </View>
+  {/* Satırlar arası boşluk için gap-5 (20px) */}
+  <View className="gap-y-5">
+    <View className="flex-row justify-between items-center">
+      <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Subtotal</Text>
+      <Text className="text-[16px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${subtotal.toFixed(0)}</Text>
+    </View>
 
-            <View className="flex-row justify-between items-center mb-2">
-              <Text style={{ ...satoshi, color: "#6b7280" }}>Discount (-20%)</Text>
-              <Text style={{ ...satoshi, fontWeight: "600", color: "#ef4444" }}>-${discount.toFixed(2)}</Text>
-            </View>
+    <View className="flex-row justify-between items-center">
+      <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Discount (-20%)</Text>
+      <Text className="text-[16px] font-bold text-red-500" style={{ fontFamily: "Satoshi-Variable" }}>-${discount.toFixed(0)}</Text>
+    </View>
 
-            {promoApplied && (
-              <View className="flex-row justify-between items-center mb-2">
-                <Text style={{ ...satoshi, color: "#6b7280" }}>Promo (SHOP10)</Text>
-                <Text style={{ ...satoshi, fontWeight: "600", color: "#ef4444" }}>-${promoDiscount.toFixed(2)}</Text>
-              </View>
-            )}
+    <View className="flex-row justify-between items-center">
+      <Text className="text-[16px] text-gray-400" style={{ fontFamily: "Satoshi-Variable" }}>Delivery Fee</Text>
+      <Text className="text-[16px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${deliveryFee.toFixed(0)}</Text>
+    </View>
+  </View>
 
-            <View className="flex-row justify-between items-center mb-2">
-              <Text style={{ ...satoshi, color: "#6b7280" }}>Delivery Fee</Text>
-              <Text style={{ ...satoshi, fontWeight: "600", color: "#111827" }}>${deliveryFee.toFixed(2)}</Text>
-            </View>
+  <View className="h-[1px] bg-gray-100 my-5" />
 
-            <View className="border-t border-gray-200 my-3" />
+  <View className="flex-row justify-between items-center mb-6">
+    <Text className="text-[18px] text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>Total</Text>
+    <Text className="text-[24px] font-bold text-gray-900" style={{ fontFamily: "Satoshi-Variable" }}>${total.toFixed(0)}</Text>
+  </View>
 
-            <View className="flex-row justify-between items-center mb-4">
-              <Text style={{ ...satoshi, fontWeight: "700", fontSize: 16, color: "#111827" }}>Total</Text>
-              <Text style={{ ...satoshi, fontWeight: "900", fontSize: 20, color: "#111827" }}>${total.toFixed(2)}</Text>
-            </View>
+  {/* Promo Code & Apply */}
+  <View className="flex-row items-center gap-3 mb-4">
+    <View className="flex-1 flex-row items-center bg-[#F0F0F0] rounded-full px-4 h-12">
+      <Feather name="tag" size={20} color="#9ca3af" />
+      <TextInput
+        className="flex-1 ml-3 text-[14px] text-gray-700"
+        style={{ fontFamily: "Satoshi-Variable" }}
+        placeholder="Add promo code"
+        placeholderTextColor="#9ca3af"
+        value={promoCode}
+        onChangeText={setPromoCode}
+        autoCapitalize="characters"
+        editable={!promoApplied}
+      />
+    </View>
+    <Pressable
+      onPress={handleApplyPromo}
+      className={`h-12 px-8 rounded-full items-center justify-center ${promoApplied ? "bg-green-600" : "bg-black"}`}
+    >
+      <Text className="text-white font-bold" style={{ fontFamily: "Satoshi-Variable" }}>
+        {promoApplied ? "✓" : "Apply"}
+      </Text>
+    </Pressable>
+  </View>
 
-            {/* Promo Code */}
-            <View className="flex-row items-center gap-2 mb-3">
-              <View className="flex-1 flex-row items-center bg-white border border-gray-200 rounded-full px-4 py-3">
-                <Feather name="tag" size={16} color="#9ca3af" />
-                <TextInput
-                  style={{ ...satoshi, flex: 1, marginLeft: 8, color: "#374151" }}
-                  placeholder="Add promo code"
-                  placeholderTextColor="#9ca3af"
-                  value={promoCode}
-                  onChangeText={setPromoCode}
-                  autoCapitalize="characters"
-                  editable={!promoApplied}
-                />
-              </View>
-              <Pressable
-                onPress={handleApplyPromo}
-                style={{ backgroundColor: promoApplied ? "#16a34a" : "#111827", paddingHorizontal: 20, paddingVertical: 12, borderRadius: 999 }}
-              >
-                <Text style={{ ...satoshi, fontWeight: "700", color: "white" }}>
-                  {promoApplied ? "✓" : "Apply"}
-                </Text>
-              </Pressable>
-            </View>
-
-            <Pressable className="bg-black rounded-full py-4 items-center">
-              <Text style={{ ...satoshi, fontWeight: "700", fontSize: 16, color: "white" }}>Go to Checkout →</Text>
-            </Pressable>
-          </View>
-
+  {/* Go to Checkout Button */}
+  <Pressable className="bg-black rounded-full h-14 flex-row items-center justify-center gap-2">
+    <Text className="text-white font-bold text-[16px]" style={{ fontFamily: "Satoshi-Variable" }}>
+      Go to Checkout
+    </Text>
+    <Feather name="arrow-right" size={20} color="white" />
+  </Pressable>
+</View>
           <Footer />
         </ScrollView>
       )}
