@@ -72,7 +72,7 @@ npx openapi-rq -i openapi.yaml -o generated
 Görevde belirtilen `fakestoreapi.com` API'si geliştirme sürecinde kararsız çalıştığı için `dummyjson.com` API'si kullanılmıştır. Bu durum görevli ile paylaşılmış ve onay alınmıştır. Veri yapısı `mapProduct()` fonksiyonu ile normalize edilerek `Product` tipine uygun hale getirilmiştir.
 
 ## Varsayımlar ve Bonus Özellikler
-
+- Giriş ve Kayıt Ekranları: Tasarıma sadık kalınarak dikeyde ortalanmış, kullanıcı dostu Login ve Signup sayfaları eklendi.
 - Ürün fiyatlarına %40 indirim uygulandı (Figma tasarımına uygun)
 - Promo kodu özelliği eklendi → `SHOP10` kodu ile %10 ek indirim
 - Pagination (sayfalama) eklendi — 6 ürün/sayfa
