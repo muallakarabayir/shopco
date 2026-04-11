@@ -1,6 +1,5 @@
 import { Feather } from "@expo/vector-icons";
 import { Image, Pressable, Text, View } from "react-native";
-import { SCREEN_WIDTH } from "../constants/layout";
 import { CartItem } from "../types";
 
 interface CartItemCardProps {
@@ -10,50 +9,69 @@ interface CartItemCardProps {
   onDecrease: () => void;
 }
 
-const IMAGE_SIZE = SCREEN_WIDTH * 0.2;
-const satoshiBold = { fontFamily: "Satoshi-Variable", fontWeight: "700" as const, fontSize: 16, lineHeight: 16, letterSpacing: 0 };
+const satoshiBold = { 
+  fontFamily: "Satoshi-Variable", 
+  fontWeight: "700" as const, 
+  fontSize: 16, 
+  lineHeight: 16, 
+  letterSpacing: 0 
+};
 
 export default function CartItemCard({ item, onRemove, onIncrease, onDecrease }: CartItemCardProps) {
   return (
-    <View className="bg-gray-50 rounded-2xl p-3 flex-row gap-3">
+    <View className="bg-white flex-row gap-3">
+      {/* Görsel Alanı: Tam 99x99 ve 8.66px radius */}
       <View
-        style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
-        className="bg-gray-100 rounded-xl items-center justify-center"
+        className="w-[99px] h-[99px] rounded-[8.66px] overflow-hidden bg-[#F0EEED] items-center justify-center"
       >
         <Image
           source={{ uri: item.product.image }}
-          style={{ width: IMAGE_SIZE - 16, height: IMAGE_SIZE - 16 }}
-          resizeMode="contain"
+          className="w-full h-full"
+          resizeMode="cover"
         />
       </View>
-      <View className="flex-1">
-        <View className="flex-row items-start justify-between">
-          <Text style={{ ...satoshiBold, color: "#111827", flex: 1, paddingRight: 8 }} numberOfLines={2}>
-            {item.product.title}
-          </Text>
-          <Pressable onPress={onRemove} className="p-1">
-            <Feather name="trash-2" size={16} color="#ef4444" />
-          </Pressable>
-        </View>
-        <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "400", fontSize: 12, color: "#9ca3af", marginTop: 4, textTransform: "capitalize" }}>
-          {item.product.category}
-        </Text>
-        <View className="flex-row items-center justify-between mt-2">
-          <Text style={{ ...satoshiBold, color: "#111827" }}>
-            ${(item.product.price * item.quantity).toFixed(2)}
-          </Text>
-          <View
-            className="flex-row items-center bg-white rounded-full border border-gray-200 px-2"
-            style={{ height: 36 }}
-          >
-            <Pressable onPress={onDecrease} style={{ width: 28, height: 36, alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ ...satoshiBold, color: "#374151" }}>−</Text>
+
+      {/* İçerik Alanı */}
+      <View className="flex-1 justify-between">
+        <View>
+          <View className="flex-row items-start justify-between">
+            <Text 
+              style={{ ...satoshiBold, color: "#111827", flex: 1, paddingRight: 8 }} 
+              numberOfLines={1}
+            >
+              {item.product.title}
+            </Text>
+            <Pressable onPress={onRemove} className="p-1">
+              <Feather name="trash-2" size={20} color="#ef4444" />
             </Pressable>
-            <View style={{ width: 24, alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ fontFamily: "Satoshi-Variable", fontWeight: "600", fontSize: 14, color: "#111827" }}>{item.quantity}</Text>
-            </View>
-            <Pressable onPress={onIncrease} style={{ width: 28, height: 36, alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ ...satoshiBold, color: "#374151" }}>+</Text>
+          </View>
+          
+          {/* Boyut ve Renk Bilgisi - Statik veya veriden çekilebilir */}
+          <Text className="font-[Satoshi-Variable] text-[12px] text-gray-500 mt-1">
+            Size: <Text className="text-gray-900">Large</Text>
+          </Text>
+          <Text className="font-[Satoshi-Variable] text-[12px] text-gray-500">
+            Color: <Text className="text-gray-900">White</Text>
+          </Text>
+        </View>
+
+        {/* Fiyat ve Miktar Seçici */}
+        <View className="flex-row items-center justify-between mt-auto">
+          <Text className="text-[20px] font-bold text-gray-900">
+            ${(item.product.price * item.quantity).toFixed(0)}
+          </Text>
+          
+          <View className="flex-row items-center bg-[#F0F0F0] rounded-full px-3 py-2 gap-4">
+            <Pressable onPress={onDecrease}>
+              <Feather name="minus" size={16} color="black" />
+            </Pressable>
+            
+            <Text className="font-[Satoshi-Variable] font-bold text-[14px]">
+              {item.quantity}
+            </Text>
+            
+            <Pressable onPress={onIncrease}>
+              <Feather name="plus" size={16} color="black" />
             </Pressable>
           </View>
         </View>

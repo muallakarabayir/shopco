@@ -109,6 +109,9 @@ export default function ProductDetailScreen() {
                 </View>
               </View>
 
+              <View className="mt-3 mb-2">
+                <Text style={{ ...satoshi, color: "#4b5563", lineHeight: 22 }}>{product.description}</Text>
+              </View>
               <View className="mt-4 border-t border-gray-100 pt-4">
                 <Text style={{ ...satoshi, color: "#6b7280", marginBottom: 12 }}>Select Colors</Text>
                 <View className="flex-row gap-3">

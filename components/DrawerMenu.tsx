@@ -1,7 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Modal, Pressable, Text, View, Animated, TouchableWithoutFeedback } from "react-native";
 import { useRef, useEffect } from "react";
+import { Modal, Pressable, Text, View, Animated, TouchableWithoutFeedback } from "react-native";
 import { SCREEN_WIDTH } from "../constants/layout";
 
 interface DrawerMenuProps {
@@ -10,6 +10,8 @@ interface DrawerMenuProps {
   onHomePress?: () => void;
   onShopPress?: () => void;
 }
+
+const satoshi = { fontFamily: "Satoshi-Variable", fontWeight: "400" as const, fontSize: 14, lineHeight: 20, letterSpacing: 0 };
 
 export default function DrawerMenu({ visible, onClose, onHomePress, onShopPress }: DrawerMenuProps) {
   const router = useRouter();
@@ -24,25 +26,9 @@ export default function DrawerMenu({ visible, onClose, onHomePress, onShopPress 
   }, [visible]);
 
   const menuItems = [
-    {
-      label: "Home",
-      onPress: () => { onClose(); onHomePress ? onHomePress() : router.push("/home"); },
-    },
-    {
-      label: "Shop",
-      onPress: () => { 
-        onClose(); 
-        if (onShopPress) {
-          onShopPress();
-        } else {
-          router.push("/");
-        }
-      },
-    },
-    {
-      label: "Cart",
-      onPress: () => { onClose(); router.push("/cart"); },
-    },
+    { label: "Home", onPress: () => { onClose(); onHomePress ? onHomePress() : router.push("/home"); } },
+    { label: "Shop", onPress: () => { onClose(); onShopPress ? onShopPress() : router.push("/shop"); } },
+    { label: "Cart", onPress: () => { onClose(); router.push("/cart"); } },
   ];
 
   return (
@@ -61,7 +47,7 @@ export default function DrawerMenu({ visible, onClose, onHomePress, onShopPress 
               }}
             >
               <View className="flex-row items-center justify-between mb-8">
-                <Text className="text-2xl font-black">SHOP.CO</Text>
+                <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 20, color: "#111827" }}>SHOP.CO</Text>
                 <Pressable onPress={onClose}>
                   <Feather name="x" size={24} color="#000" />
                 </Pressable>
@@ -69,17 +55,17 @@ export default function DrawerMenu({ visible, onClose, onHomePress, onShopPress 
 
               {menuItems.map((item) => (
                 <Pressable key={item.label} onPress={item.onPress} className="py-4 border-b border-gray-100">
-                  <Text className="text-lg font-semibold text-gray-900">{item.label}</Text>
+                  <Text style={{ ...satoshi, fontWeight: "600", fontSize: 18, color: "#111827" }}>{item.label}</Text>
                 </Pressable>
               ))}
 
               <View className="absolute bottom-12 left-6 right-6">
                 <View className="flex-row gap-4">
                   <Pressable className="flex-1 bg-black py-3 rounded-full items-center">
-                    <Text className="text-white font-bold">Sign In</Text>
+                    <Text style={{ ...satoshi, fontWeight: "700", color: "white" }}>Sign In</Text>
                   </Pressable>
                   <Pressable className="flex-1 border border-black py-3 rounded-full items-center">
-                    <Text className="text-black font-bold">Sign Up</Text>
+                    <Text style={{ ...satoshi, fontWeight: "700", color: "#111827" }}>Sign Up</Text>
                   </Pressable>
                 </View>
               </View>

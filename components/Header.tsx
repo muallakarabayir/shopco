@@ -73,9 +73,9 @@ export default function Header({ showBack = false, onShopPress, onHomePress, onS
 
         <View className="flex-row items-center gap-4">
           {!showBack && (
-            <Pressable onPress={handleSearch}>
-              <Pressable onPress={onSearchPress}><Feather name="search" size={isSmallScreen ? 22 : 24} color="#000" /></Pressable>
-            </Pressable>
+          <Pressable onPress={onSearchPress ?? handleSearch}>
+  <Feather name="search" size={isSmallScreen ? 22 : 24} color="#000" />
+</Pressable>
           )}
           <Pressable onPress={() => router.push("/cart")} className="relative">
             <Feather name="shopping-bag" size={isSmallScreen ? 22 : 24} color="#000" />
