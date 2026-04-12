@@ -28,66 +28,79 @@ export default function DrawerMenu({ visible, onClose, onHomePress, onShopPress 
   const menuItems = [
     { label: "Home", onPress: () => { onClose(); onHomePress ? onHomePress() : router.push("/home"); } },
     { label: "Shop", onPress: () => { onClose(); onShopPress ? onShopPress() : router.push("/shop"); } },
-    { label: "Cart", onPress: () => { onClose(); router.push("/cart"); } },
+    { label: "Brands", onPress: () => { onClose(); router.push("/home#brands"); } },
   ];
 
   return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)" }}>
-          <TouchableWithoutFeedback>
-            <Animated.View
-              style={{
-                transform: [{ translateX: slideAnim }],
-                width: SCREEN_WIDTH * 0.75,
-                height: "100%",
-                backgroundColor: "white",
-                paddingTop: 60,
-                paddingHorizontal: 24,
-              }}
-            >
-              <View className="flex-row items-center justify-between mb-8">
-                <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 20, color: "#111827" }}>SHOP.CO</Text>
-                <Pressable onPress={onClose}>
-                  <Feather name="x" size={24} color="#000" />
-                </Pressable>
-              </View>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="none"
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
+      <View className="flex-1">
+        {/* Karartılmış Arka Plan */}
+        <TouchableWithoutFeedback onPress={onClose}>
+          <View className="absolute inset-0 bg-black/50" />
+        </TouchableWithoutFeedback>
 
+        {/* Kayar Menü */}
+        <Animated.View
+          style={{
+            transform: [{ translateX: slideAnim }],
+            width: SCREEN_WIDTH * 0.75,
+          }}
+          className="flex-1 bg-white shadow-xl z-50"
+        >
+          {/* h-full ekleyerek View'ın tüm yüksekliği kaplamasını sağladık */}
+          <View className="flex-1 p-6 pt-12 h-full">
+            
+            {/* Header Kısmı */}
+            <View className="flex-row justify-between items-center mb-10">
+              <Text style={{ fontFamily: "IntegralCF-Bold", fontSize: 24, color: "#111827" }}>
+                SHOP.CO
+              </Text>
+              <Pressable onPress={onClose} hitSlop={15}>
+                <Feather name="x" size={28} color="#000" />
+              </Pressable>
+            </View>
+
+            {/* Orta Kısım (Navigasyon) */}
+            <View>
               {menuItems.map((item) => (
-                <Pressable key={item.label} onPress={item.onPress} className="py-4 border-b border-gray-100">
-                  <Text style={{ ...satoshi, fontWeight: "600", fontSize: 18, color: "#111827" }}>{item.label}</Text>
+                <Pressable 
+                  key={item.label} 
+                  onPress={item.onPress} 
+                  className="py-5 border-b border-gray-50 active:bg-gray-50"
+                >
+                  <Text style={{ ...satoshi, fontWeight: "600", fontSize: 18, color: "#111827" }}>
+                    {item.label}
+                  </Text>
                 </Pressable>
               ))}
+            </View>
 
-              <View className="absolute bottom-12 left-6 right-6">
-  <View className="flex-row gap-4">
-    {/* Sign In Butonu */}
-    <Pressable 
-      onPress={() => {
-        onClose();
-        router.push("/auth/login"); // (auth) grubu olduğu için direkt /login
-      }}
-      className="flex-1 bg-black py-3 rounded-full items-center"
-    >
-      <Text style={{ ...satoshi, fontWeight: "700", color: "white" }}>Sign In</Text>
-    </Pressable>
+            {/* Butonları En Alta İten Alan */}
+            {/* mt-auto sayesinde bu View her zaman en aşağıda kalır */}
+            <View className="absolute bottom-8 left-6 right-6 gap-y-4">
+              <Pressable 
+                onPress={() => { onClose(); router.push("/auth/login"); }}
+                className="bg-black py-4 rounded-full items-center active:opacity-80"
+              >
+                <Text style={{ ...satoshi, fontWeight: "700", color: "white" }}>Sign In</Text>
+              </Pressable>
 
-    {/* Sign Up Butonu */}
-    <Pressable 
-      onPress={() => {
-        onClose();
-        router.push("/auth/signup"); // (auth) grubu olduğu için direkt /signup
-      }}
-      className="flex-1 border border-black py-3 rounded-full items-center"
-    >
-      <Text style={{ ...satoshi, fontWeight: "700", color: "#111827" }}>Sign Up</Text>
-    </Pressable>
-  </View>
-</View>
-            </Animated.View>
-          </TouchableWithoutFeedback>
-        </View>
-      </TouchableWithoutFeedback>
+              <Pressable 
+                onPress={() => { onClose(); router.push("/auth/signup"); }}
+                className="border border-black py-4 rounded-full items-center active:bg-gray-50"
+              >
+                <Text style={{ ...satoshi, fontWeight: "700", color: "black" }}>Sign Up</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Animated.View>
+      </View>
     </Modal>
   );
 }
