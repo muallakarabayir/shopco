@@ -75,9 +75,9 @@ export default function ProductDetailScreen() {
               <Text style={{ ...satoshi, fontWeight: "600", color: "#111827", textTransform: "capitalize" }}>{product.category}</Text>
             </View>
 
-           {/* Ürün Görselleri ve Varyasyonlar */}
+ {/* Ürün Görselleri ve Varyasyonlar */}
 <View className="flex-col px-4 gap-y-3">
-  {/* Ana Görsel Kaplayıcı */}
+  {/* Ana Görsel */}
   <View className="w-full aspect-square bg-[#F0EEED] rounded-[20px] items-center justify-center overflow-hidden">
     <Image
       source={{ uri: product?.image }}
@@ -86,11 +86,13 @@ export default function ProductDetailScreen() {
     />
   </View>
 
-  {/* Varyasyon Listesi - Görseldeki dikey/yatay dizilim ve tam ölçüler */}
-  <View className="flex-row gap-x-3">
-    {/* Not: Buradaki array'i kendi veri yapına (product.images vb.) göre map'leyebilirsin.
-       Şu an tasarım tutarlılığı için 3 adet varyasyon slotu oluşturuldu.
-    */}
+  {/* Varyasyon Listesi - Yatay ScrollView eklendi */}
+  <ScrollView 
+    horizontal 
+    showsHorizontalScrollIndicator={false}
+    className="flex-row"
+    contentContainerStyle={{ gap: 12 }} // gap-x-3 karşılığı
+  >
     {[1, 2, 3].map((_, index) => (
       <View 
         key={index}
@@ -105,7 +107,7 @@ export default function ProductDetailScreen() {
         />
       </View>
     ))}
-  </View>
+  </ScrollView>
 </View>
 
             <View className="px-4 mt-4">
